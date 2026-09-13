@@ -1235,29 +1235,21 @@ pre code {
   .scene .callout-count { color: #7a828b; }
 }
 
-/* Speaking rings take turns; with reduced motion, one stays lit. */
+/* The scene drifts and the speaking rings take turns. This plays even
+   with reduced motion turned on. */
+
+.scene {
+  animation: drift 18s ease-in-out infinite alternate;
+}
 
 .ring {
   border-radius: 50%;
+  animation: speak 8s ease-in-out infinite;
 }
 
-.ring.r1 {
-  box-shadow: 0 0 0 0.14em #34d399;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .scene {
-    animation: drift 18s ease-in-out infinite alternate;
-  }
-
-  .ring {
-    animation: speak 8s ease-in-out infinite;
-  }
-
-  .ring.r2 { animation-delay: 2s; }
-  .ring.r3 { animation-delay: 4s; }
-  .ring.r4 { animation-delay: 6s; }
-}
+.ring.r2 { animation-delay: 2s; }
+.ring.r3 { animation-delay: 4s; }
+.ring.r4 { animation-delay: 6s; }
 
 @keyframes drift {
   from { transform: rotateX(20deg) rotateY(-20deg) rotateZ(7deg); }
