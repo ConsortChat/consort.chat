@@ -440,6 +440,7 @@ pre code {
 }
 
 .hero .lede {
+  max-width: 54ch;
   margin-inline: auto;
   color: #a9c4c6;
 }
