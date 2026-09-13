@@ -3,15 +3,16 @@
 :root {
   color-scheme: light dark;
 
-  --bg: #fbfdfd;
-  --surface: #eef4f4;
-  --text: #102326;
-  --muted: #48595c;
-  --border: #cfdcdd;
-  --accent: #0e7490;
-  --accent-hover: #0b5d73;
+  --bg: #f3f3f3;
+  --header-bg: #e7e7e7;
+  --surface: #e9e9e9;
+  --text: #0f0f0f;
+  --muted: #3a3a3a;
+  --border: #d2d2d2;
+  --accent: #0a5a70;
+  --accent-hover: #07475a;
   --on-accent: #ffffff;
-  --code-bg: #e4eded;
+  --code-bg: #e3e3e3;
   --note-bg: #fff6db;
   --note-border: #b88600;
   --note-text: #3d2e00;
@@ -26,15 +27,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0c1517;
-    --surface: #152326;
-    --text: #e4eced;
-    --muted: #a3b4b6;
-    --border: #2a3c3f;
+    --bg: #141414;
+    --surface: #1f1f1f;
+    --text: #e8e8e8;
+    --muted: #a8a8a8;
+    --border: #333333;
     --accent: #2dd4bf;
     --accent-hover: #5eead4;
     --on-accent: #042f2e;
-    --code-bg: #0f1c1f;
+    --code-bg: #1a1a1a;
     --note-bg: #2b2208;
     --note-border: #d9a520;
     --note-text: #f6e7b8;
@@ -139,6 +140,14 @@ code {
   border-bottom: 1px solid var(--border);
 }
 
+/* A solid bar that the hero fades out of. */
+@media (prefers-color-scheme: light) {
+  .site-header {
+    background: var(--header-bg);
+    border-bottom-color: var(--header-bg);
+  }
+}
+
 .site-header .wrap {
   display: flex;
   flex-wrap: wrap;
@@ -158,6 +167,13 @@ code {
   display: block;
   width: auto;
   height: 28px;
+}
+
+/* The logo's bright teal washes out on the light page, so deepen it. */
+@media (prefers-color-scheme: light) {
+  .brand img {
+    filter: brightness(0.66) saturate(2.2);
+  }
 }
 
 .site-nav ul {
@@ -412,6 +428,57 @@ pre code {
     radial-gradient(28% 28% at 94% 8%, rgb(94 234 212 / 0.16), transparent 70%),
     #061012;
   color: #e6f0f1;
+}
+
+/*
+  In the light theme the stage fades in from the header bar at the top and
+  out into the page at the bottom. The fades use eased stops so neither end
+  shows a line, and the extra bottom padding gives the app's shadows room to
+  fade out instead of being clipped by the hero's edge.
+*/
+@media (prefers-color-scheme: light) {
+  .hero {
+    /* Overlap the header's same-colored bottom row so a fractional header height shows no seam. */
+    margin-top: -1px;
+    padding-bottom: clamp(6rem, 16vw, 10rem);
+    background:
+      linear-gradient(
+        var(--header-bg),
+        color-mix(in srgb, var(--header-bg) 72%, transparent) 1rem,
+        color-mix(in srgb, var(--header-bg) 42%, transparent) 2rem,
+        color-mix(in srgb, var(--header-bg) 18%, transparent) 3rem,
+        color-mix(in srgb, var(--header-bg) 5%, transparent) 4rem,
+        transparent 5rem
+      ),
+      radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.34), transparent 70%),
+      radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.6), transparent 70%),
+      radial-gradient(28% 28% at 94% 8%, rgb(94 234 212 / 0.2), transparent 70%),
+      #0f2a2f;
+  }
+
+  .hero .hero-copy {
+    padding-top: clamp(5.5rem, 11vw, 7rem);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    /* Reach a pixel past the edge so a fractional hero height shows no sliver. */
+    inset: auto 0 -1px;
+    height: clamp(9rem, 26vw, 16rem);
+    background: linear-gradient(
+      color-mix(in srgb, var(--bg) 0%, transparent),
+      color-mix(in srgb, var(--bg) 6%, transparent) 15%,
+      color-mix(in srgb, var(--bg) 22%, transparent) 30%,
+      color-mix(in srgb, var(--bg) 43%, transparent) 45%,
+      color-mix(in srgb, var(--bg) 65%, transparent) 60%,
+      color-mix(in srgb, var(--bg) 84%, transparent) 75%,
+      color-mix(in srgb, var(--bg) 96%, transparent) 90%,
+      var(--bg)
+    );
+    pointer-events: none;
+  }
 }
 
 .hero::before {
@@ -1049,6 +1116,131 @@ pre code {
   margin-left: auto;
   color: #8f969e;
   font-size: 0.8em;
+}
+
+/* In the light theme, the mockup shows the app's light theme. */
+
+@media (prefers-color-scheme: light) {
+  .scene-shadow {
+    background: rgb(0 0 0 / 0.2);
+    box-shadow: 0 0 7em 5em rgb(0 0 0 / 0.16);
+  }
+
+  /* Surfaces use the site's own grays so the app and the page share one luma. */
+  .scene .app {
+    background: var(--bg);
+    color: #2b2f33;
+    box-shadow:
+      0 0 0 0.1em rgb(0 0 0 / 0.08),
+      0 3em 6em rgb(0 0 0 / 0.35);
+  }
+
+  .scene .app::after {
+    background: linear-gradient(115deg, rgb(255 255 255 / 0.3), transparent 32%, transparent 72%, rgb(255 255 255 / 0.12));
+  }
+
+  .scene .app-rail {
+    background: var(--header-bg);
+    border-right-color: var(--border);
+    color: #5f6770;
+  }
+
+  .scene .rail-org {
+    box-shadow: 0 0 0 0.15em var(--header-bg), 0 0 0 0.3em #0e9f8f;
+  }
+
+  .scene .app-top {
+    background: var(--header-bg);
+    border-bottom-color: var(--border);
+    color: #5f6770;
+  }
+
+  .scene .app-logo {
+    filter: brightness(0.66) saturate(2.2);
+  }
+
+  .scene .app-crumb { color: #1f2328; }
+  .scene .dim { color: #8a929b; }
+
+  .scene .app-search {
+    background: var(--bg);
+    color: #6b737c;
+  }
+
+  .scene .field {
+    border-color: var(--border);
+    color: #7a828b;
+  }
+
+  .scene .sec { color: #4f6b8f; }
+
+  .scene .row.on {
+    background: var(--surface);
+    color: #0f1a1d;
+  }
+
+  .scene .row.sub { color: #4b535b; }
+  .scene .presence { border-color: #9aa1a8; }
+  .scene .presence.live { border-color: #22a355; background: #22a355; }
+
+  .scene .c-hash { color: #7f8f0e; }
+  .scene .c-globe { color: #7b5fd6; }
+  .scene .c-folder { color: #d98a10; }
+  .scene .c-lounge { color: #cf9215; }
+  .scene .c-voice { color: #d4507f; }
+  .scene .c-private { color: #2f97bd; }
+
+  .scene .recip {
+    background: #d7ecee;
+    color: #0f3a3f;
+  }
+
+  .scene .msgs { border-color: #cfe3e5; }
+  .scene .msg-head { color: #15191d; }
+  .scene .msg-head .when { color: #7a828b; }
+
+  .scene .compose {
+    border-color: var(--border);
+    background: var(--surface);
+    color: #7a828b;
+  }
+
+  .scene .invite { color: #2f6fb0; }
+
+  .scene .call {
+    background: var(--bg);
+    color: #1f2328;
+    box-shadow:
+      0 0 0 0.1em rgb(0 0 0 / 0.08),
+      0 2.5em 5em rgb(0 0 0 / 0.35),
+      0 0 7em rgb(45 212 191 / 0.25);
+  }
+
+  .scene .call-head { background: var(--header-bg); }
+  .scene .pill { background: var(--border); }
+  .scene .pill.leave { background: #e03a3e; color: #fff; }
+  .scene .share { background: var(--code-bg); }
+  .scene .share-page { background: var(--bg); }
+  .scene .tile { background: var(--surface); }
+  .scene .tile-name { color: #fff; }
+
+  .scene .call-bar {
+    background: var(--header-bg);
+    color: #3b4148;
+  }
+
+  .scene .call-bar .on { color: #0e9f8f; }
+
+  .scene .callout {
+    background: var(--bg);
+    color: #2b2f33;
+    box-shadow:
+      0 0 0 0.08em rgb(0 0 0 / 0.08),
+      0 2em 4em rgb(0 0 0 / 0.35),
+      0 0 5em rgb(239 127 166 / 0.18);
+  }
+
+  .scene .callout-count { color: #7a828b; }
 }
 
 /* Speaking rings take turns; with reduced motion, one stays lit. */
