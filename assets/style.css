@@ -28,6 +28,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #141414;
+    --header-bg: #1b1b1b;
     --surface: #1f1f1f;
     --text: #e8e8e8;
     --muted: #a8a8a8;
@@ -51,6 +52,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Keep in-page jumps clear of the sticky header. */
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -136,16 +139,13 @@ code {
 
 /* Header and footer */
 
+/* A solid bar that stays at the top of the page. */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 9;
   border-bottom: 1px solid var(--border);
-}
-
-/* A solid bar that the hero fades out of. */
-@media (prefers-color-scheme: light) {
-  .site-header {
-    background: var(--header-bg);
-    border-bottom-color: var(--header-bg);
-  }
+  background: var(--header-bg);
 }
 
 .site-header .wrap {
@@ -417,11 +417,16 @@ pre code {
   The scene is 100em wide.
 */
 
+/*
+  The stage fades out into the page at the bottom. The fade uses eased stops
+  so its end shows no line, and the extra bottom padding gives the app's
+  shadows room to fade out instead of being clipped by the hero's edge.
+*/
 .hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-bottom: clamp(2.5rem, 7vw, 5rem);
+  padding-bottom: clamp(6rem, 16vw, 10rem);
   background:
     radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.3), transparent 70%),
     radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.5), transparent 70%),
@@ -430,55 +435,35 @@ pre code {
   color: #e6f0f1;
 }
 
-/*
-  In the light theme the stage fades in from the header bar at the top and
-  out into the page at the bottom. The fades use eased stops so neither end
-  shows a line, and the extra bottom padding gives the app's shadows room to
-  fade out instead of being clipped by the hero's edge.
-*/
+/* The light theme's stage is a lighter teal. */
 @media (prefers-color-scheme: light) {
   .hero {
-    /* Overlap the header's same-colored bottom row so a fractional header height shows no seam. */
-    margin-top: -1px;
-    padding-bottom: clamp(6rem, 16vw, 10rem);
     background:
-      linear-gradient(
-        var(--header-bg),
-        color-mix(in srgb, var(--header-bg) 72%, transparent) 1rem,
-        color-mix(in srgb, var(--header-bg) 42%, transparent) 2rem,
-        color-mix(in srgb, var(--header-bg) 18%, transparent) 3rem,
-        color-mix(in srgb, var(--header-bg) 5%, transparent) 4rem,
-        transparent 5rem
-      ),
       radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.34), transparent 70%),
       radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.6), transparent 70%),
       radial-gradient(28% 28% at 94% 8%, rgb(94 234 212 / 0.2), transparent 70%),
       #0f2a2f;
   }
+}
 
-  .hero .hero-copy {
-    padding-top: clamp(5.5rem, 11vw, 7rem);
-  }
-
-  .hero::after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    /* Reach a pixel past the edge so a fractional hero height shows no sliver. */
-    inset: auto 0 -1px;
-    height: clamp(9rem, 26vw, 16rem);
-    background: linear-gradient(
-      color-mix(in srgb, var(--bg) 0%, transparent),
-      color-mix(in srgb, var(--bg) 6%, transparent) 15%,
-      color-mix(in srgb, var(--bg) 22%, transparent) 30%,
-      color-mix(in srgb, var(--bg) 43%, transparent) 45%,
-      color-mix(in srgb, var(--bg) 65%, transparent) 60%,
-      color-mix(in srgb, var(--bg) 84%, transparent) 75%,
-      color-mix(in srgb, var(--bg) 96%, transparent) 90%,
-      var(--bg)
-    );
-    pointer-events: none;
-  }
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  /* Reach a pixel past the edge so a fractional hero height shows no sliver. */
+  inset: auto 0 -1px;
+  height: clamp(9rem, 26vw, 16rem);
+  background: linear-gradient(
+    color-mix(in srgb, var(--bg) 0%, transparent),
+    color-mix(in srgb, var(--bg) 6%, transparent) 15%,
+    color-mix(in srgb, var(--bg) 22%, transparent) 30%,
+    color-mix(in srgb, var(--bg) 43%, transparent) 45%,
+    color-mix(in srgb, var(--bg) 65%, transparent) 60%,
+    color-mix(in srgb, var(--bg) 84%, transparent) 75%,
+    color-mix(in srgb, var(--bg) 96%, transparent) 90%,
+    var(--bg)
+  );
+  pointer-events: none;
 }
 
 .hero::before {
