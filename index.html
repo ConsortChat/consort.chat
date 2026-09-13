@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Consort: chat, voice and video</title>
+  <meta name="description" content="Consort is a chat app with voice and video calls built in. No ads, no analytics, no tracking.">
+  <link rel="icon" href="assets/consort-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./" aria-current="page">
+        <img src="assets/consort-icon.svg" alt="" width="32" height="32">
+        Consort
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="#download">Download</a></li>
+          <li><a href="privacy/">Privacy</a></li>
+          <li><a href="https://github.com/ConsortChat/consort-mobile">Source code</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <section class="hero" aria-labelledby="title">
+        <div>
+          <h1 id="title">Consort</h1>
+          <p class="lede">Chat, voice and video for your community, without the tracking.</p>
+          <div class="actions">
+            <a class="button button-primary" href="#download">Download</a>
+            <a class="button button-secondary" href="privacy/">Privacy policy</a>
+          </div>
+        </div>
+        <img class="hero-icon" src="assets/consort-icon.svg" alt="" width="176" height="176">
+      </section>
+
+      <section aria-labelledby="features-title">
+        <h2 id="features-title" class="visually-hidden">Features</h2>
+        <ul class="features">
+          <li>
+            <h3>Conversations that stay organized</h3>
+            <p>Channels and topics keep discussions easy to follow. Consort works with Zulip servers too.</p>
+          </li>
+          <li>
+            <h3>Voice and video built in</h3>
+            <p>On Consort servers, start or join a call from a channel, a direct message, a voice channel or a lounge. Calls run on Jitsi.</p>
+          </li>
+          <li>
+            <h3>No more data than it needs</h3>
+            <p>No ads, no analytics, no tracking. The app talks to the server you choose, not to us.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" id="download" aria-labelledby="download-title">
+        <h2 id="download-title">Download</h2>
+        <p class="section-intro">Store listings aren’t live yet. Check GitHub releases for Android builds in the meantime.</p>
+
+        <!--
+          One line per store. A card without href shows "Coming soon".
+          To put a store live, add its href (for the planned ones below,
+          rename data-href to href). See README.md.
+        -->
+        <ul class="stores">
+          <li><a class="store" data-store="f-droid" data-href="https://f-droid.org/packages/chat.consort.fdroid/"><span class="store-name">F-Droid</span> <span class="store-detail">Android, without Google services</span> <span class="store-status">Coming soon</span></a></li>
+          <li><a class="store" data-store="google-play" data-href="https://play.google.com/store/apps/details?id=chat.consort.mobile"><span class="store-name">Google Play</span> <span class="store-detail">Android</span> <span class="store-status">Coming soon</span></a></li>
+          <li><a class="store" data-store="app-store"><span class="store-name">App Store</span> <span class="store-detail">iPhone and iPad</span> <span class="store-status">Coming soon</span></a></li>
+          <li><a class="store" data-store="microsoft-store"><span class="store-name">Microsoft Store</span> <span class="store-detail">Windows</span> <span class="store-status">Coming soon</span></a></li>
+          <li><a class="store" data-store="github-releases" href="https://github.com/ConsortChat/consort-mobile/releases"><span class="store-name">GitHub releases</span> <span class="store-detail">Android APK downloads</span> <span class="store-status">Coming soon</span></a></li>
+        </ul>
+
+        <p class="fine-print">The F-Droid version contains no Google or Firebase code, and delivers notifications through UnifiedPush. The Google Play version can also use Google’s push service. The <a href="privacy/">privacy policy</a> explains the difference.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Consort is open source, based on the Zulip Flutter app. <a href="https://github.com/ConsortChat/consort-mobile">Source code on GitHub</a>.</p>
+      <p>This website uses no cookies, analytics or third-party resources. <a href="privacy/">Privacy policy</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>
