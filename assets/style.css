@@ -1,7 +1,12 @@
 /* Consort website. Plain CSS, no external resources. */
 
+/*
+  The theme comes from data-theme on <html>, which assets/theme.js sets
+  from the visitor's choice or the system setting before the page draws.
+  Without scripts the page is light.
+*/
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
   --bg: #fcfcfc;
   --header-bg: #e7e7e7;
@@ -25,22 +30,22 @@
   --gutter: clamp(1rem, 4vw, 2rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #141414;
-    --header-bg: #1b1b1b;
-    --surface: #1f1f1f;
-    --text: #e8e8e8;
-    --muted: #a8a8a8;
-    --border: #333333;
-    --accent: #2dd4bf;
-    --accent-hover: #5eead4;
-    --on-accent: #042f2e;
-    --code-bg: #1a1a1a;
-    --note-bg: #2b2208;
-    --note-border: #d9a520;
-    --note-text: #f6e7b8;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #141414;
+  --header-bg: #1b1b1b;
+  --surface: #1f1f1f;
+  --text: #e8e8e8;
+  --muted: #a8a8a8;
+  --border: #333333;
+  --accent: #2dd4bf;
+  --accent-hover: #5eead4;
+  --on-accent: #042f2e;
+  --code-bg: #1a1a1a;
+  --note-bg: #2b2208;
+  --note-border: #d9a520;
+  --note-text: #f6e7b8;
 }
 
 *,
@@ -149,10 +154,8 @@ code {
 }
 
 /* In the light theme, the bar shares the page's gray. */
-@media (prefers-color-scheme: light) {
-  .site-header {
-    background: var(--bg);
-  }
+:root:not([data-theme="dark"]) .site-header {
+  background: var(--bg);
 }
 
 .site-header .wrap {
@@ -177,9 +180,62 @@ code {
 }
 
 /* The logo's bright teal washes out on the light page, so deepen it. */
-@media (prefers-color-scheme: light) {
-  .brand img {
-    filter: brightness(0.66) saturate(2.2);
+:root:not([data-theme="dark"]) .brand img {
+  filter: brightness(0.66) saturate(2.2);
+}
+
+/* The theme button, shown by assets/theme.js. It shows the moon in the
+   light theme and the sun in the dark one. */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-block: -0.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-toggle[hidden],
+.theme-toggle[aria-pressed="true"] .icon-moon,
+.theme-toggle[aria-pressed="false"] .icon-sun {
+  display: none;
+}
+
+.theme-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.site-nav {
+  margin-left: auto;
+}
+
+/* On narrow screens the button joins the logo's row and the links get
+   their own. */
+@media (max-width: 40rem) {
+  .theme-toggle {
+    order: 1;
+  }
+
+  .site-nav {
+    order: 2;
+    flex-basis: 100%;
+    margin-left: 0;
   }
 }
 
@@ -432,7 +488,9 @@ pre code {
 .hero {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  /* clip, not hidden: hidden would make the hero a scroll container, and
+     the scroll animations below would follow it instead of the page. */
+  overflow: clip;
   padding-bottom: clamp(6rem, 16vw, 10rem);
   background:
     radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.3), transparent 70%),
@@ -443,14 +501,12 @@ pre code {
 }
 
 /* The light theme's stage is a lighter teal. */
-@media (prefers-color-scheme: light) {
-  .hero {
-    background:
-      radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.34), transparent 70%),
-      radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.6), transparent 70%),
-      radial-gradient(28% 28% at 94% 8%, rgb(94 234 212 / 0.2), transparent 70%),
-      #0f2a2f;
-  }
+:root:not([data-theme="dark"]) .hero {
+  background:
+    radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.34), transparent 70%),
+    radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.6), transparent 70%),
+    radial-gradient(28% 28% at 94% 8%, rgb(94 234 212 / 0.2), transparent 70%),
+    #0f2a2f;
 }
 
 .hero::after {
@@ -1068,6 +1124,69 @@ pre code {
   color: #fff;
 }
 
+/*
+  Minimize and Restore. assets/hero.js toggles .call-minimized on the
+  scene: the call shrinks away and a dock slides in under the message box.
+*/
+
+button.pill {
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+button.pill:hover {
+  box-shadow: inset 0 0 0 0.08em currentColor;
+}
+
+.call {
+  transform-origin: 15% 100%;
+  transition: opacity 0.35s ease, scale 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s;
+}
+
+.call-minimized .call {
+  opacity: 0;
+  scale: 0.25;
+  visibility: hidden;
+  transition: opacity 0.3s ease, scale 0.4s cubic-bezier(0.5, 0, 0.7, 0.4), visibility 0s 0.4s;
+}
+
+.compose {
+  transition: bottom 0.3s ease;
+}
+
+.call-minimized .compose {
+  bottom: 3.7em;
+}
+
+/* The dock slides with bottom, not translate: a transformed element in
+   the tilted window doesn't receive clicks in Chromium. */
+.call-dock {
+  position: absolute;
+  right: 1.2em;
+  bottom: -1.5em;
+  left: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.35em 0.4em 0.35em 0.8em;
+  border-radius: 0.45em;
+  background: #26262c;
+  color: #e9eaeb;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, bottom 0.25s ease, visibility 0s 0.25s;
+}
+
+.call-minimized .call-dock {
+  bottom: 0.9em;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease 0.2s, bottom 0.3s ease 0.2s, visibility 0s 0.2s;
+}
+
 /* The voice channel, lifted out of the sidebar */
 
 .callout {
@@ -1112,7 +1231,7 @@ pre code {
 
 /* In the light theme, the mockup shows the app's light theme. */
 
-@media (prefers-color-scheme: light) {
+:root:not([data-theme="dark"]) {
   .scene-shadow {
     background: rgb(0 0 0 / 0.2);
     box-shadow: 0 0 7em 5em rgb(0 0 0 / 0.16);
@@ -1233,13 +1352,21 @@ pre code {
   }
 
   .scene .callout-count { color: #7a828b; }
+
+  .scene .call-dock {
+    background: var(--header-bg);
+    color: #1f2328;
+  }
 }
 
 /* The scene drifts and the speaking rings take turns. This plays even
-   with reduced motion turned on. */
+   with reduced motion turned on. assets/hero.js also tilts the scene
+   toward the mouse, through --tilt-x, --tilt-y and --tilt. */
 
 .scene {
   animation: drift 18s ease-in-out infinite alternate;
+  rotate: var(--tilt-x, 0) var(--tilt-y, 1) 0 var(--tilt, 0deg);
+  transition: rotate 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .ring {
@@ -1259,6 +1386,79 @@ pre code {
 @keyframes speak {
   0%, 25%, 100% { box-shadow: 0 0 0 0.14em rgb(52 211 153 / 0); }
   5%, 20% { box-shadow: 0 0 0 0.14em #34d399, 0 0 0.7em 0.15em rgb(52 211 153 / 0.55); }
+}
+
+/*
+  Scrolling down fades the hero's text, slides the call and the voice
+  panel up to the top of the window, and lets the window rise more slowly
+  than the page, so the section below, scrolling normally, slides over its
+  bottom. All of it follows --hero-scroll on <main>, which runs from 0 to
+  1 as the text scrolls off the top of the page. Browsers with scroll-driven animations
+  set it here; others get it from assets/hero.js.
+*/
+@property --hero-scroll {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.hero-copy {
+  opacity: calc(1 - min(1, var(--hero-scroll, 0) / 0.7));
+}
+
+/* The stage sinks through the page, ending with the window's bottom just
+   inside the hero's bottom edge, where the hero would clip it: the hero's
+   bottom padding plus 3em (the tilted window reaches lower than its box,
+   which leaves 9em of stage). It moves only by transform, so nothing on
+   the page changes position and the text below scrolls at normal speed. */
+.stage {
+  translate: 0 calc(var(--hero-scroll, 0) * (3em + clamp(6rem, 16vw, 10rem)));
+}
+
+/* The call and the voice panel rise faster than the window, ending near
+   its top. */
+.call {
+  translate: 0 calc(var(--hero-scroll, 0) * -21em);
+}
+
+.callout {
+  translate: 0 calc(var(--hero-scroll, 0) * -20em);
+}
+
+/* Fixed over the hero's faded bottom by its top padding plus 2rem, and
+   drawn above the hero, so the heading ends 2rem over the window's bottom.
+   The heading and intro let clicks through to the window underneath. */
+.hero + .wrap {
+  position: relative;
+  margin-top: calc(-1 * (clamp(3rem, 8vw, 5rem) + 2rem));
+  pointer-events: none;
+}
+
+.hero + .wrap > :not(:first-child),
+.hero + .wrap > :first-child > :not(h2, .section-intro) {
+  pointer-events: auto;
+}
+
+@supports (animation-timeline: view()) {
+  main:has(> .hero) {
+    timeline-scope: --hero-copy;
+    animation: hero-scroll linear both;
+    animation-timeline: --hero-copy;
+    animation-range: exit-crossing 0% exit-crossing 100%;
+  }
+
+  /* An inset of 0, because by default the range takes the page's
+     scroll-padding and the text would start faded. */
+  .hero-copy {
+    view-timeline-name: --hero-copy;
+    view-timeline-axis: block;
+    view-timeline-inset: 0;
+  }
+}
+
+@keyframes hero-scroll {
+  from { --hero-scroll: 0; }
+  to { --hero-scroll: 1; }
 }
 
 .split {

@@ -10,6 +10,21 @@ Content-Security-Policy that blocks third-party resources, so anything
 added from another host won't load. Keep it that way: self-host anything
 new under `assets/`.
 
+Two small scripts add what CSS can't do on its own:
+
+- `assets/theme.js`, on every page, applies the light or dark theme
+  before the page draws: the visitor's choice from the header's button,
+  or the system setting. It sets `data-theme` on `<html>`, and
+  `style.css` keys its theme rules off that attribute rather than
+  `prefers-color-scheme`. Without scripts, the page is light.
+- `assets/hero.js`, on the home page, runs the hero's scroll effect in
+  browsers without CSS scroll-driven animations (such as Firefox), tilts
+  the app mockup toward the mouse, and makes the call's Minimize and
+  Restore buttons work.
+
+Each page's policy allows scripts from the site itself
+(`script-src 'self'`).
+
 ```
 index.html                 home: what Consort is
 server/index.html          self-hosting guide
