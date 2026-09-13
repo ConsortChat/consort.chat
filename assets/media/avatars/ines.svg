@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Ines">
+  <defs>
+    <clipPath id="c-ines"><circle cx="32" cy="32" r="32"/></clipPath>
+    <clipPath id="h-ines"><rect x="0" y="0" width="64" height="26"/></clipPath>
+  </defs>
+  <g clip-path="url(#c-ines)">
+    <circle cx="32" cy="32" r="32" fill="#8a4a63"/>
+    <path d="M8 64c0-12 10.7-19 24-19s24 7 24 19z" fill="#f2d3b8"/>
+    <circle cx="32" cy="27" r="11.5" fill="#f2d3b8"/>
+    <rect x="19.8" y="22" width="4.3" height="24" rx="2.1" fill="#4e3226"/>
+    <rect x="39.9" y="22" width="4.3" height="24" rx="2.1" fill="#4e3226"/>
+    <circle cx="32" cy="26.5" r="12.3" fill="#4e3226" clip-path="url(#h-ines)"/>
+  </g>
+</svg>

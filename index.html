@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Consort: voice, video and chat</title>
   <meta name="description" content="Consort is open-source team chat with voice and video calls built in. Run it on your own server, with apps for desktop and mobile.">
@@ -12,6 +12,38 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Icons for the hero mockup. -->
+  <svg class="visually-hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13l2.5 8v6H3v-6z"/></g></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+    <symbol id="i-feed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 10h12M4 14h16M4 18h10"/></g></symbol>
+    <symbol id="i-at" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></g></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9z"/></g></symbol>
+    <symbol id="i-plus-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8M8 12h8"/></g></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></g></symbol>
+    <symbol id="i-hash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9.5 3 7.5 21M16.5 3l-2 18M4 8.5h17M3 15.5h17"/></g></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path fill="currentColor" d="M2.5 6.5a2 2 0 0 1 2-2h4.3l2 2.2h8.7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-voice" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9.5h3.5L12 5v14l-5.5-4.5H3z"/><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></g></symbol>
+    <symbol id="i-voice-lock" viewBox="0 0 24 24"><path fill="currentColor" d="M2 9.5h3L10 5v14l-5-4.5H2z"/><rect fill="currentColor" x="13.5" y="13" width="8" height="7" rx="1.2"/><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15.3 13v-1.7a2.2 2.2 0 0 1 4.4 0V13M13 7.5a5 5 0 0 1 1.6 3"/></g></symbol>
+    <symbol id="i-lounge" viewBox="0 0 1000 1000"><path fill="currentColor" d="M122.5 327.5A82.5 82.5 0 0 1 287.5 327.5L287.5 672.5A82.5 82.5 0 0 1 122.5 672.5ZM332.5 167.5A82.5 82.5 0 0 1 497.5 167.5L497.5 832.5A82.5 82.5 0 0 1 332.5 832.5ZM542.5 267.5A82.5 82.5 0 0 1 707.5 267.5L707.5 732.5A82.5 82.5 0 0 1 542.5 732.5ZM752.5 397.5A82.5 82.5 0 0 1 917.5 397.5L917.5 602.5A82.5 82.5 0 0 1 752.5 602.5Z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></g></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6.5" width="12" height="11" rx="2"/><path d="m15 10.5 6-3.5v10l-6-3.5"/></g></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M9.5 10.5 12 8l2.5 2.5M12 8v6"/></g></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></g></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5V4.5a1.5 1.5 0 0 1 3 0V11V6a1.5 1.5 0 0 1 3 0v8a7 7 0 0 1-7 7h-.5a6 6 0 0 1-5-2.7L3.3 15a1.5 1.5 0 0 1 2.5-1.6L8 16"/></g></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></g></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></g></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></g></symbol>
+    <symbol id="i-hangup" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9c-3.8 0-7.3 1.2-9.4 3.2a1.6 1.6 0 0 0 0 2.3l1.6 1.6a1.6 1.6 0 0 0 2 .2l2-1.3a1.6 1.6 0 0 0 .7-1.3v-1.6a13 13 0 0 1 6.2 0v1.6a1.6 1.6 0 0 0 .7 1.3l2 1.3a1.6 1.6 0 0 0 2-.2l1.6-1.6a1.6 1.6 0 0 0 0-2.3C19.3 10.2 15.8 9 12 9z"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17.3v.2"/></g></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></g></symbol>
+    <symbol id="i-sidebar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></g></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></g></symbol>
+  </svg>
 
   <header class="site-header">
     <div class="wrap">
@@ -27,22 +59,161 @@
   </header>
 
   <main id="main">
-    <div class="wrap">
-      <section class="hero" aria-labelledby="title">
-        <div>
-          <h1 id="title">Voice, video and chat, where the conversation decides who can join</h1>
-          <p class="lede">Consort is open-source team chat with calls built in. Run it on your own server, and use it in a browser or the desktop and mobile apps.</p>
-          <div class="actions">
-            <a class="button button-primary" href="download/">Download the apps</a>
-            <a class="button button-secondary" href="server/">Run your own server</a>
+    <section class="hero" aria-labelledby="title">
+      <div class="wrap hero-copy">
+        <h1 id="title">Voice, video and chat, where <span class="accent">the conversation decides who can join</span></h1>
+        <p class="lede">Consort is open-source team chat with calls built in. Run it on your own server, and use it in a browser or the desktop and mobile apps.</p>
+        <div class="actions">
+          <a class="button button-primary" href="download/">Download the apps</a>
+          <a class="button button-secondary" href="server/">Run your own server</a>
+        </div>
+      </div>
+
+      <!-- Decorative mockup of the desktop app. People and messages are made up. -->
+      <div class="stage-wrap">
+        <div class="stage" role="img" aria-label="The Consort desktop app, shown at an angle. A design channel has a short conversation, the sidebar lists text and voice channels with four people in Voice, and their call floats in front of the window while one of them shares a screen.">
+          <div class="scene">
+            <div class="scene-glow"></div>
+            <div class="scene-shadow"></div>
+
+            <div class="app">
+              <div class="app-rail">
+                <span class="rail-org"><svg class="ico"><use href="#i-lounge"/></svg></span>
+                <svg class="ico"><use href="#i-plus"/></svg>
+                <span class="rail-gap"></span>
+                <svg class="ico"><use href="#i-bell"/></svg>
+                <svg class="ico"><use href="#i-gear"/></svg>
+              </div>
+
+              <div class="app-top">
+                <div class="app-brand">
+                  <svg class="ico"><use href="#i-sidebar"/></svg>
+                  <img class="app-logo" src="assets/consort-logo.svg" alt="" width="70" height="14">
+                </div>
+                <div class="app-crumb"><svg class="ico c-hash"><use href="#i-hash"/></svg>design <span class="dim">›</span> homepage</div>
+                <span class="grow"></span>
+                <svg class="ico"><use href="#i-cam"/></svg>
+                <span class="app-search"><svg class="ico"><use href="#i-search"/></svg>Search</span>
+                <svg class="ico"><use href="#i-help"/></svg>
+                <svg class="ico"><use href="#i-gear"/></svg>
+                <img class="av" src="assets/media/avatars/ada.svg" alt="" width="64" height="64">
+                <svg class="ico"><use href="#i-menu"/></svg>
+              </div>
+
+              <div class="app-side">
+                <div class="field"><svg class="ico"><use href="#i-search"/></svg>Filter left sidebar</div>
+                <div class="sec">VIEWS <span class="views"><svg class="ico"><use href="#i-inbox"/></svg><svg class="ico"><use href="#i-clock"/></svg><svg class="ico"><use href="#i-feed"/></svg><svg class="ico"><use href="#i-at"/></svg><svg class="ico"><use href="#i-star"/></svg></span></div>
+                <div class="row"><svg class="ico"><use href="#i-inbox"/></svg>Inbox</div>
+                <div class="sec">DIRECT MESSAGES</div>
+                <div class="row"><span class="presence live"></span>Ada (you)</div>
+                <div class="row"><span class="presence live"></span>Bo</div>
+                <div class="row"><span class="presence live"></span>Ines</div>
+                <div class="row"><span class="presence"></span>Juno</div>
+                <div class="sec">TEXT</div>
+                <div class="row"><svg class="ico c-hash"><use href="#i-hash"/></svg>general</div>
+                <div class="row"><svg class="ico c-globe"><use href="#i-globe"/></svg>announcements</div>
+                <div class="row on"><svg class="ico c-hash"><use href="#i-hash"/></svg>design</div>
+                <div class="row"><svg class="ico c-folder"><use href="#i-folder"/></svg>threads</div>
+                <div class="sec">VOICE</div>
+                <div class="row"><svg class="ico c-lounge"><use href="#i-lounge"/></svg>Lounge</div>
+                <div class="row"><svg class="ico c-voice"><use href="#i-voice"/></svg>Voice</div>
+                <div class="row sub"><img class="av ring r1" src="assets/media/avatars/ada.svg" alt="" width="64" height="64">Ada</div>
+                <div class="row sub"><img class="av ring r2" src="assets/media/avatars/ravi.svg" alt="" width="64" height="64">Ravi</div>
+                <div class="row sub"><img class="av ring r3" src="assets/media/avatars/bo.svg" alt="" width="64" height="64">Bo</div>
+                <div class="row sub"><img class="av ring r4" src="assets/media/avatars/ines.svg" alt="" width="64" height="64">Ines</div>
+                <div class="sec">OTHER</div>
+                <div class="row"><svg class="ico c-private"><use href="#i-voice-lock"/></svg>Private Voice</div>
+              </div>
+
+              <div class="app-main">
+                <div class="recip"><svg class="ico"><use href="#i-hash"/></svg>design <span class="dim">›</span> homepage <span class="when">TODAY</span></div>
+                <div class="msgs">
+                  <div class="msg">
+                    <img class="av" src="assets/media/avatars/ada.svg" alt="" width="64" height="64">
+                    <div class="msg-head">Ada <span class="when">10:02 AM</span></div>
+                    <div>The homepage draft is ready. I’m in Voice if anyone wants to go through it together.</div>
+                  </div>
+                  <div class="msg">
+                    <img class="av" src="assets/media/avatars/ravi.svg" alt="" width="64" height="64">
+                    <div class="msg-head">Ravi <span class="when">10:03 AM</span></div>
+                    <div>On my way. Can you share your screen?</div>
+                  </div>
+                  <div class="msg">
+                    <img class="av" src="assets/media/avatars/bo.svg" alt="" width="64" height="64">
+                    <div class="msg-head">Bo <span class="when">10:04 AM</span></div>
+                    <div>Joining too. I’ll keep notes in this topic.</div>
+                  </div>
+                  <div class="msg">
+                    <img class="av" src="assets/media/avatars/ines.svg" alt="" width="64" height="64">
+                    <div class="msg-head">Ines <span class="when">10:06 AM</span></div>
+                    <div>First note: the hero could use more depth.</div>
+                  </div>
+                </div>
+                <div class="compose">Message #design › homepage</div>
+              </div>
+
+              <div class="app-users">
+                <div class="field"><svg class="ico"><use href="#i-search"/></svg>Filter users</div>
+                <div class="sec">THIS CHANNEL (6)</div>
+                <div class="row"><img class="av" src="assets/media/avatars/ada.svg" alt="" width="64" height="64">Ada <span class="dim">(you)</span></div>
+                <div class="row"><img class="av" src="assets/media/avatars/bo.svg" alt="" width="64" height="64">Bo</div>
+                <div class="row"><img class="av" src="assets/media/avatars/ines.svg" alt="" width="64" height="64">Ines</div>
+                <div class="row"><img class="av" src="assets/media/avatars/ravi.svg" alt="" width="64" height="64">Ravi</div>
+                <div class="row"><img class="av" src="assets/media/avatars/penguin.svg" alt="" width="64" height="64">Juno</div>
+                <div class="row"><img class="av" src="assets/media/avatars/elephant.svg" alt="" width="64" height="64">Mika</div>
+                <div class="sec">OTHERS (2)</div>
+                <div class="row"><img class="av" src="assets/media/avatars/crab.svg" alt="" width="64" height="64">Kit</div>
+                <div class="row"><img class="av" src="assets/media/avatars/camel.svg" alt="" width="64" height="64">Cam</div>
+                <div class="invite">INVITE TO ORGANIZATION</div>
+              </div>
+            </div>
+
+            <div class="call">
+              <div class="call-head"><b>In call</b> #Voice <span class="dim">· 4 in call</span><span class="grow"></span><span class="pill">Mute</span><span class="pill">Maximize</span><span class="pill">Minimize</span><span class="pill leave">Leave</span></div>
+              <div class="call-body">
+                <div class="share">
+                  <div class="share-page">
+                    <div class="sp-nav"><i></i><i></i><i></i></div>
+                    <div class="sp-hero"><svg class="ico"><use href="#i-lounge"/></svg><span class="sp-line"></span><span class="sp-line short"></span></div>
+                    <div class="sp-cards"><i></i><i></i><i></i></div>
+                  </div>
+                  <span class="tile-name">Ada’s screen</span>
+                </div>
+                <div class="strip">
+                  <div class="tile"><img class="av ring r1" src="assets/media/avatars/ada.svg" alt="" width="64" height="64"><span class="tile-name">Ada</span></div>
+                  <div class="tile"><img class="av ring r2" src="assets/media/avatars/ravi.svg" alt="" width="64" height="64"><span class="tile-name">Ravi</span></div>
+                  <div class="tile"><img class="av ring r3" src="assets/media/avatars/bo.svg" alt="" width="64" height="64"><span class="tile-name">Bo</span></div>
+                  <div class="tile"><img class="av ring r4" src="assets/media/avatars/ines.svg" alt="" width="64" height="64"><span class="tile-name">Ines</span></div>
+                </div>
+              </div>
+              <div class="call-bar">
+                <svg class="ico"><use href="#i-mic"/></svg>
+                <svg class="ico"><use href="#i-cam"/></svg>
+                <svg class="ico on"><use href="#i-share"/></svg>
+                <svg class="ico"><use href="#i-chat"/></svg>
+                <svg class="ico"><use href="#i-hand"/></svg>
+                <svg class="ico"><use href="#i-people"/></svg>
+                <svg class="ico"><use href="#i-grid"/></svg>
+                <svg class="ico"><use href="#i-dots"/></svg>
+                <span class="hangup"><svg class="ico"><use href="#i-hangup"/></svg></span>
+              </div>
+            </div>
+
+            <div class="callout">
+              <div class="sec">VOICE</div>
+              <div class="row"><svg class="ico c-voice"><use href="#i-voice"/></svg>Voice <span class="callout-count">4 in call</span></div>
+              <div class="row sub"><img class="av ring r1" src="assets/media/avatars/ada.svg" alt="" width="64" height="64">Ada</div>
+              <div class="row sub"><img class="av ring r2" src="assets/media/avatars/ravi.svg" alt="" width="64" height="64">Ravi</div>
+              <div class="row sub"><img class="av ring r3" src="assets/media/avatars/bo.svg" alt="" width="64" height="64">Bo</div>
+              <div class="row sub"><img class="av ring r4" src="assets/media/avatars/ines.svg" alt="" width="64" height="64">Ines</div>
+              <div class="row"><svg class="ico c-lounge"><use href="#i-lounge"/></svg>Lounge</div>
+            </div>
           </div>
         </div>
-        <figure class="media">
-          <video src="assets/media/voice-channel.mp4" width="750" height="444" autoplay muted loop playsinline controls aria-describedby="hero-caption"></video>
-          <figcaption id="hero-caption">A voice channel with four people in it. A ring lights up around whoever is speaking.</figcaption>
-        </figure>
-      </section>
+      </div>
+    </section>
 
+    <div class="wrap">
       <section class="section" aria-labelledby="features-title">
         <h2 id="features-title">Calls that belong to the conversation</h2>
         <p class="section-intro">In Consort, every channel and direct message can hold a call, and the call knows who belongs in it.</p>

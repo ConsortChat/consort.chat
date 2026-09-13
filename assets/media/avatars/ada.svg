@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Ada">
+  <defs>
+    <clipPath id="c-ada"><circle cx="32" cy="32" r="32"/></clipPath>
+    <clipPath id="h-ada"><rect x="0" y="0" width="64" height="27"/></clipPath>
+  </defs>
+  <g clip-path="url(#c-ada)">
+    <circle cx="32" cy="32" r="32" fill="#1f6f5c"/>
+    <path d="M8 64c0-12 10.7-19 24-19s24 7 24 19z" fill="#f0c9a8"/>
+    <circle cx="32" cy="27" r="11.5" fill="#f0c9a8"/>
+    <rect x="19.8" y="22" width="4.3" height="11" rx="2.1" fill="#2a211a"/>
+    <rect x="39.9" y="22" width="4.3" height="11" rx="2.1" fill="#2a211a"/>
+    <circle cx="32" cy="26.5" r="12.2" fill="#2a211a" clip-path="url(#h-ada)"/>
+  </g>
+</svg>

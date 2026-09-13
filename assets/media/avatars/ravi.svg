@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Ravi">
+  <defs>
+    <clipPath id="c-ravi"><circle cx="32" cy="32" r="32"/></clipPath>
+    <clipPath id="h-ravi"><rect x="0" y="0" width="64" height="27.5"/></clipPath>
+  </defs>
+  <g clip-path="url(#c-ravi)">
+    <circle cx="32" cy="32" r="32" fill="#4f5a68"/>
+    <path d="M8 64c0-12 10.7-19 24-19s24 7 24 19z" fill="#a9713f"/>
+    <circle cx="32" cy="27" r="11.5" fill="#a9713f"/>
+    <circle cx="32" cy="26.5" r="13.6" fill="#14100d" clip-path="url(#h-ravi)"/>
+  </g>
+</svg>

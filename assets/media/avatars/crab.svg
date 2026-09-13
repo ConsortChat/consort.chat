@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="crab">
+  <defs><clipPath id="c-crab"><circle cx="32" cy="32" r="32"/></clipPath></defs>
+  <g clip-path="url(#c-crab)">
+    <circle cx="32" cy="32" r="32" fill="#ffe6c0"/>
+    <g stroke="#e0553a" stroke-width="3.4" stroke-linecap="round" fill="none">
+      <path d="M17 39 8 44"/><path d="M17.5 43.5 9 51"/><path d="M19 47 14 55"/>
+      <path d="M47 39 56 44"/><path d="M46.5 43.5 55 51"/><path d="M45 47 50 55"/>
+    </g>
+    <circle cx="11" cy="30" r="8" fill="#e0553a"/>
+    <circle cx="53" cy="30" r="8" fill="#e0553a"/>
+    <path d="M3.5 26.5 12 30l-8.5 3.5z" fill="#ffe6c0"/>
+    <path d="M60.5 26.5 52 30l8.5 3.5z" fill="#ffe6c0"/>
+    <path d="M26 30v-8" stroke="#e0553a" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M38 30v-8" stroke="#e0553a" stroke-width="3.2" stroke-linecap="round"/>
+    <ellipse cx="32" cy="39" rx="17" ry="12" fill="#e0553a"/>
+    <circle cx="26" cy="20" r="3.2" fill="#2a2320"/>
+    <circle cx="38" cy="20" r="3.2" fill="#2a2320"/>
+  </g>
+</svg>

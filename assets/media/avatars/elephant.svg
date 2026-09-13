@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="elephant">
+  <defs><clipPath id="c-elephant"><circle cx="32" cy="32" r="32"/></clipPath></defs>
+  <g clip-path="url(#c-elephant)">
+    <circle cx="32" cy="32" r="32" fill="#ecdfc9"/>
+    <circle cx="12.5" cy="27" r="11" fill="#7f8a99"/>
+    <circle cx="51.5" cy="27" r="11" fill="#7f8a99"/>
+    <circle cx="12.5" cy="27" r="6" fill="#e79f9f"/>
+    <circle cx="51.5" cy="27" r="6" fill="#e79f9f"/>
+    <circle cx="32" cy="28" r="15.5" fill="#7f8a99"/>
+    <path d="M32 38v9" fill="none" stroke="#7f8a99" stroke-width="10" stroke-linecap="round"/>
+    <path d="M32 46v6c0 4.5 5.5 5.5 7.5 2" fill="none" stroke="#7f8a99" stroke-width="6.5" stroke-linecap="round"/>
+    <circle cx="25.5" cy="25.5" r="2.3" fill="#ecdfc9"/>
+    <circle cx="38.5" cy="25.5" r="2.3" fill="#ecdfc9"/>
+  </g>
+</svg>

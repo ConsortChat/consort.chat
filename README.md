@@ -50,8 +50,14 @@ If a repository moves, search the site for its URL: it appears in every
 footer, and in `server/` and `download/`.
 
 The logo, favicon and demo media are copied from the server repository
-(`brand/` and `docs/`). Don't edit them here; regenerate them there and
-copy them again.
+(`brand/`, `docs/` and `docs/demo-avatars/`). Don't edit them here;
+regenerate them there and copy them again.
+
+The home page hero is an HTML and CSS mockup of the desktop app, not a
+screenshot, so it stays sharp and has no real people's names or avatars
+in it. Its people and messages are made up. When the app's look changes,
+update the mockup in `index.html` (the `.stage` block) and its styles in
+`assets/style.css` (under "Hero").
 
 ## Update download links
 
