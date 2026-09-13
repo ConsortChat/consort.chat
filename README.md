@@ -63,7 +63,8 @@ server.
 | Mobile app | https://github.com/ConsortChat/consort-mobile |
 
 If a repository moves, search the site for its URL: it appears in every
-footer, and in `server/` and `download/`.
+footer, and in `server/` and `download/`. Every header links to the
+GitHub organization, https://github.com/ConsortChat.
 
 The logo, favicon and demo media are copied from the server repository
 (`brand/`, `docs/` and `docs/demo-avatars/`). Don't edit them here;

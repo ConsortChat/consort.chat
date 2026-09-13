@@ -225,9 +225,9 @@ code {
   margin-left: auto;
 }
 
-/* On narrow screens the button joins the logo's row and the links get
-   their own. */
-@media (max-width: 40rem) {
+/* Where the links don't fit beside the logo, the button joins the logo's
+   row and the links get their own. */
+@media (max-width: 50rem) {
   .theme-toggle {
     order: 1;
   }
@@ -260,7 +260,18 @@ code {
   text-decoration: underline;
 }
 
-/* Keep all four links on one row on phones. */
+/* The GitHub organization, with GitHub's mark. The mark sits in the line
+   of text, so the link is no taller than the others. */
+.nav-github svg {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 0.35em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+}
+
+/* Keep all the links on one row on phones: GitHub shows only its mark,
+   and its name stays for screen readers. */
 @media (max-width: 30rem) {
   .site-nav ul {
     gap: 0.25rem 0.9rem;
@@ -269,15 +280,30 @@ code {
   .site-nav a {
     font-size: 0.9375rem;
   }
+
+  .nav-github svg {
+    margin-right: 0;
+  }
+
+  .nav-github .nav-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 
-@media (max-width: 22rem) {
+/* Below about 373px the links need smaller type to stay on one row. */
+@media (max-width: 23.25rem) {
   .site-nav ul {
-    gap: 0.25rem 0.7rem;
+    gap: 0.25rem 0.5rem;
   }
 
   .site-nav a {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 
