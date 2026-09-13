@@ -58,13 +58,17 @@ server.
 
 | | Repository |
 | --- | --- |
-| Server | https://github.com/Dyslectric/Consort |
-| Desktop app | https://github.com/Dyslectric/Consort-Desktop |
-| Mobile app | https://github.com/ConsortChat/consort-mobile |
+| Server | https://github.com/ConsortChat/ConsortServer |
+| Desktop app | https://github.com/ConsortChat/ConsortDesktop |
+| Mobile app | https://github.com/ConsortChat/ConsortMobile |
 
 If a repository moves, search the site for its URL: it appears in every
-footer, and in `server/` and `download/`. Every header links to the
-GitHub organization, https://github.com/ConsortChat.
+footer, and in `download/`. Every header links to the GitHub
+organization, https://github.com/ConsortChat.
+
+The self-hosting guide in `server/` still clones from and links to
+https://github.com/Dyslectric/Consort, because its deployment guide
+(`deploy/README.md`) isn't in ConsortServer. Move those links once it is.
 
 The logo, favicon and demo media are copied from the server repository
 (`brand/`, `docs/` and `docs/demo-avatars/`). Don't edit them here;
@@ -101,14 +105,14 @@ to
 
 | Download | URL | Status |
 | --- | --- | --- |
-| Windows | `https://github.com/Dyslectric/Consort-Desktop/releases/latest` | live |
-| Linux | `https://github.com/Dyslectric/Consort-Desktop/releases/latest` | live |
+| Windows | `https://github.com/ConsortChat/ConsortDesktop/releases/latest` | live |
+| Linux | `https://github.com/ConsortChat/ConsortDesktop/releases/latest` | live |
 | Microsoft Store | `https://apps.microsoft.com/detail/<Store ID>` | coming soon |
 | macOS | a release asset, once one is built | coming soon |
 | F-Droid | `https://f-droid.org/packages/chat.consort.fdroid/` | coming soon |
 | Google Play | `https://play.google.com/store/apps/details?id=chat.consort.mobile` | coming soon |
 | App Store | `https://apps.apple.com/app/id<numeric ID>` | coming soon |
-| Android APK | `https://github.com/ConsortChat/consort-mobile/releases/latest` | coming soon (no releases yet) |
+| Android APK | `https://github.com/ConsortChat/ConsortMobile/releases/latest` | coming soon (no releases yet) |
 
 Check the F-Droid ID against `applicationId` for the `fdroid` flavor in
 the mobile app's `android/app/build.gradle` before going live.
