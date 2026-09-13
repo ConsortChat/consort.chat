@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <!-- DRAFT: remove this noindex line when the policy is published. -->
-  <meta name="robots" content="noindex">
-  <title>Privacy policy (draft) · Consort</title>
-  <meta name="description" content="What the Consort app does with your information.">
-  <link rel="icon" href="../assets/consort-icon.svg" type="image/svg+xml">
+  <title>Privacy · Consort</title>
+  <meta name="description" content="How Consort, its apps and this website handle your information.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -17,15 +15,12 @@
 
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="../">
-        <img src="../assets/consort-icon.svg" alt="" width="32" height="32">
-        Consort
-      </a>
+      <a class="brand" href="../"><img src="../assets/consort-logo.svg" alt="Consort" width="140" height="28"></a>
       <nav class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="../#download">Download</a></li>
+          <li><a href="../server/">Self-host</a></li>
+          <li><a href="../download/">Download</a></li>
           <li><a href="./" aria-current="page">Privacy</a></li>
-          <li><a href="https://github.com/ConsortChat/consort-mobile">Source code</a></li>
         </ul>
       </nav>
     </div>
@@ -34,117 +29,29 @@
   <main id="main">
     <div class="wrap">
       <article class="prose">
-        <h1>Consort privacy policy</h1>
+        <h1>Privacy</h1>
+        <p class="lede">Consort is built to collect no more data than it needs.</p>
 
-        <!-- DRAFT: remove this notice when the policy is published. -->
-        <div class="note" role="note" aria-label="Draft notice">
-          <p><strong>Draft: not yet in effect.</strong> This policy is still being written. Placeholders are shown in <span class="placeholder">[BRACKETS]</span>.</p>
-          <p>Some statements describe the app as it will be once work in progress is finished, so they may not match the current version yet.</p>
-        </div>
-
-        <p class="meta">Effective date: <span class="placeholder">[DATE]</span></p>
-
-        <p>This policy explains what the Consort app for Android does with your information. It covers the app only. Consort is a client: it connects to a chat server that you choose, and whoever runs that server decides what happens to the data stored there. Read your server’s own privacy policy for that.</p>
-
-        <h2 id="short-version">The short version</h2>
+        <h2 id="apps">The apps</h2>
+        <p>Each Consort app has its own privacy policy.</p>
         <ul>
-          <li>We, the publishers of the app, receive none of your data. The app has no analytics, advertising, crash reporting or tracking of any kind, and it doesn’t send anything to us.</li>
-          <li>The app sends your messages, files and account details only to the server you log in to.</li>
-          <li>The only other services the app uses are push notifications and video calls. Both are described below.</li>
-          <li>We don’t sell or share personal information, because we don’t have any.</li>
+          <li><a href="mobile/">Mobile app privacy policy</a> (draft)</li>
+          <li>Desktop app privacy policy: coming later</li>
         </ul>
 
-        <h2 id="server">Information sent to your server</h2>
-        <p>To work, the app exchanges information with the server you log in to:</p>
-        <ul>
-          <li><strong>Your login.</strong> Your email address or username, your password (or a sign-in through a service your server offers, such as Google or GitHub), and the API key the server issues when you log in.</li>
-          <li><strong>What you do in the app.</strong> Messages you send, reactions, files and photos you upload, profile changes, and which messages you’ve read.</li>
-          <li><strong>Activity status.</strong> Whether the app is open, so others can see you’re online, and when you’re typing. The app doesn’t send these when you’ve turned them off in your settings. Whether others can see that you’ve read their messages is also controlled by your settings on the server.</li>
-          <li><strong>App and system version.</strong> Each request includes the app version and your Android version, so the server can stay compatible with the app. No device model, identifiers or other device information are sent.</li>
-        </ul>
+        <h2 id="servers">Consort servers</h2>
+        <p>The apps connect to a Consort server, and whoever runs that server decides what happens to the data stored on it, including your account, messages and files. Ask them for their privacy policy. If you run your own server, that’s you.</p>
 
-        <h2 id="push-notifications">Push notifications</h2>
-        <p>To notify you of new messages, the app registers your device with a push notification service and gives your server the address it needs to reach you. Which service is used depends on how you installed the app.</p>
-        <p><strong>Google Play version.</strong> The app uses Google’s Firebase Cloud Messaging (FCM). When the app starts, it registers with FCM, and Google issues a token that identifies this installation of the app. The app sends the token to your server, which may pass it on to the push service it uses. On servers that support it, the token and notification contents are end-to-end encrypted: Google and any push service in between can’t read your messages. Older servers may send notification contents unencrypted through these services. Google processes this information under its own terms: <a href="https://firebase.google.com/support/privacy">firebase.google.com/support/privacy</a>.</p>
-        <p><strong>F-Droid version.</strong> This version contains no Google or Firebase code.</p>
-        <p><strong>UnifiedPush (both versions).</strong> If you’ve installed a UnifiedPush distributor app, such as ntfy, and your server supports it, notifications are delivered through that distributor’s push service. The contents are encrypted, so the service sees only when a notification arrives and how large it is.</p>
-        <p>Notifications show the sender, the conversation and the message text. Whether they appear on your lock screen is controlled by your device’s notification settings.</p>
-
-        <h2 id="calls">Calls</h2>
-        <p>When you join a call, the app connects to the Jitsi video server your chat server uses, never to a default public one. Your server gives the call your display name and avatar. Audio and video go through the call servers your server’s operator has set up. The app doesn’t record calls.</p>
-
-        <h2 id="permissions">Permissions</h2>
-        <p>The app asks only for permissions it needs, and it asks for each one when it’s first needed:</p>
-        <div class="table-scroll" role="region" aria-labelledby="permissions" tabindex="0">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Permission</th>
-                <th scope="col">Why</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Notifications</th>
-                <td>To show new messages. Asked when you first open the app.</td>
-              </tr>
-              <tr>
-                <th scope="row">Camera</th>
-                <td>To take a photo to send, and for video in calls.</td>
-              </tr>
-              <tr>
-                <th scope="row">Microphone</th>
-                <td>For audio in calls.</td>
-              </tr>
-              <tr>
-                <th scope="row">Run in the background during calls</th>
-                <td>To keep a call going while you use other apps.</td>
-              </tr>
-              <tr>
-                <th scope="row">Internet access and network status</th>
-                <td>To reach your server, and to reconnect when your connection changes.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p>The app never asks for your contacts, location, calendar, phone state or general access to your storage. When you attach a photo or file, you pick it in Android’s own picker, and the app can see only what you pick. Files are uploaded only when you send them.</p>
-
-        <h2 id="other-websites">Content from other websites</h2>
-        <p>Messages can include images, link previews and videos hosted on other websites. When you view them, the app loads them straight from those sites, which can see your IP address, as they would in a web browser. The app doesn’t send those sites your login or any other identifying information. Links you tap open in your browser.</p>
-
-        <h2 id="on-device">Information stored on your device</h2>
-        <p>The app stores the following on your device:</p>
-        <ul>
-          <li>the address of each server you’re logged in to, your user ID and email address there, and the API key used to access your account</li>
-          <li>the keys used to decrypt your push notifications</li>
-          <li>your app settings, such as theme and browser preference.</li>
-        </ul>
-        <p>Messages aren’t stored on your device; they’re loaded from your server each time. This data is excluded from Android backups and device transfers. Logging out of an account deletes that account’s information from the device, and uninstalling the app deletes all of it.</p>
-
-        <h2 id="your-rights">Your choices and rights</h2>
-        <p>Because we don’t hold any of your data, there’s nothing for us to give you, correct or delete. For data on your chat server, including your account, messages and files, contact the person or organization that runs the server. You can:</p>
-        <ul>
-          <li>log out to remove an account from your device</li>
-          <li>turn off notifications, or revoke any permission, in Android settings</li>
-          <li>use the F-Droid version to avoid Google services entirely.</li>
-        </ul>
-
-        <h2 id="children">Children</h2>
-        <p>The app doesn’t knowingly collect any information from anyone, including children. Whether children may use a particular server is up to that server’s operator.</p>
-
-        <h2 id="changes">Changes to this policy</h2>
-        <p>If the app’s handling of your information changes, we’ll update this page and its effective date before releasing the change.</p>
-
-        <h2 id="contact">Contact</h2>
-        <p><span class="placeholder">[PUBLISHER NAME]</span><br>
-        <span class="placeholder">[CONTACT EMAIL]</span></p>
+        <h2 id="website">This website</h2>
+        <p>consort.chat uses no cookies, analytics, tracking, or resources from other websites. The server that hosts it may keep ordinary access logs, such as your IP address and the pages you request.</p>
+        <p>Links to app stores and GitHub take you to those sites, which have their own privacy policies.</p>
       </article>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>Consort is open source, based on the Zulip Flutter app. <a href="https://github.com/ConsortChat/consort-mobile">Source code on GitHub</a>.</p>
+      <p>Consort is open source under the Apache License 2.0. Source code: <a href="https://github.com/Dyslectric/Consort">server</a>, <a href="https://github.com/Dyslectric/Consort-Desktop">desktop</a>, <a href="https://github.com/ConsortChat/consort-mobile">mobile</a>.</p>
       <p>This website uses no cookies, analytics or third-party resources.</p>
     </div>
   </footer>

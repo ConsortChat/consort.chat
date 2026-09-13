@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Self-host · Consort</title>
+  <meta name="description" content="Run your own Consort server: chat and calls, installed with one command.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../"><img src="../assets/consort-logo.svg" alt="Consort" width="140" height="28"></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="./" aria-current="page">Self-host</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="../privacy/">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <article class="prose">
+        <h1>Run your own Consort server</h1>
+        <p class="lede">Chat, calls, and the HTTPS in front of them, installed together with one command. Your conversations stay on a machine you control.</p>
+
+        <h2 id="install">Install</h2>
+        <p>On any machine with Docker:</p>
+<pre><code>git clone https://github.com/Dyslectric/Consort.git
+cd Consort/deploy
+./consort up</code></pre>
+        <p><code>up</code> checks the machine, generates every secret, starts the services, creates your organization with an owner account, checks that everything works, and prints an address and a password. There’s nothing to fill in first.</p>
+        <p>Then, before your first call:</p>
+<pre><code>./consort trust</code></pre>
+        <p>On a single machine, Consort serves HTTPS with a certificate authority it generates for you. <code>trust</code> prints the one-line command to trust it on your platform. Until you do, calls won’t load.</p>
+
+        <h2 id="requirements">What you need</h2>
+        <div class="table-scroll" role="region" aria-labelledby="requirements" tabindex="0">
+          <table>
+            <tbody>
+              <tr>
+                <th scope="row">Software</th>
+                <td>Docker, with Compose 2.24 or later</td>
+              </tr>
+              <tr>
+                <th scope="row">Memory and disk</th>
+                <td>About 8 GB of memory and 10 GB of disk</td>
+              </tr>
+              <tr>
+                <th scope="row">Download</th>
+                <td>About 2 GB the first time you run it</td>
+              </tr>
+              <tr>
+                <th scope="row">Windows</th>
+                <td>Docker Desktop; run the commands from Git Bash</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="commands">Everyday commands</h2>
+        <div class="table-scroll" role="region" aria-labelledby="commands" tabindex="0">
+          <table>
+            <tbody>
+              <tr>
+                <th scope="row"><code>up</code></th>
+                <td>Start everything. Safe to run again after changing settings.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>verify</code></th>
+                <td>Check a running server.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>logs</code></th>
+                <td>Follow the logs.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>down</code></th>
+                <td>Stop, keeping all data.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>destroy</code></th>
+                <td>Stop and delete all data, secrets and generated files.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>All settings live in one generated <code>.env</code> file.</p>
+
+        <h2 id="going-public">Open it to other people</h2>
+        <p>The defaults are for trying Consort on one machine. To let others reach it:</p>
+        <ol>
+          <li>Give the chat and video hostnames real domain names, with DNS pointing at your server.</li>
+          <li>Switch the built-in web server from local certificates to automatic ones from a certificate authority.</li>
+          <li>Tell the video bridge your server’s public address, and open its UDP port in your firewall.</li>
+          <li>Decide who may join calls in channels that are open to the public web.</li>
+        </ol>
+        <p>Already run Traefik? Consort can sit behind it.</p>
+
+        <h2 id="sign-in">Single sign-on</h2>
+        <p>People can sign in through your identity provider with SAML. You can offer more than one login button.</p>
+
+        <p class="more"><a href="https://github.com/Dyslectric/Consort/blob/main/deploy/README.md">Read the full deployment guide on GitHub</a></p>
+
+        <!-- Hosted service: tentative. Remove this section if the plan changes. -->
+        <h2 id="hosting">Rather not run a server?</h2>
+        <p>We’re considering a hosted Consort service. It isn’t available yet.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Consort is open source under the Apache License 2.0. Source code: <a href="https://github.com/Dyslectric/Consort">server</a>, <a href="https://github.com/Dyslectric/Consort-Desktop">desktop</a>, <a href="https://github.com/ConsortChat/consort-mobile">mobile</a>.</p>
+      <p>This website uses no cookies, analytics or third-party resources. <a href="../privacy/">Privacy</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Consort: chat, voice and video</title>
-  <meta name="description" content="Consort is a chat app with voice and video calls built in. No ads, no analytics, no tracking.">
-  <link rel="icon" href="assets/consort-icon.svg" type="image/svg+xml">
+  <title>Consort: voice, video and chat</title>
+  <meta name="description" content="Consort is open-source team chat with voice and video calls built in. Run it on your own server, with apps for desktop and mobile.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -15,15 +15,12 @@
 
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="./" aria-current="page">
-        <img src="assets/consort-icon.svg" alt="" width="32" height="32">
-        Consort
-      </a>
+      <a class="brand" href="./" aria-current="page"><img src="assets/consort-logo.svg" alt="Consort" width="140" height="28"></a>
       <nav class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="#download">Download</a></li>
+          <li><a href="server/">Self-host</a></li>
+          <li><a href="download/">Download</a></li>
           <li><a href="privacy/">Privacy</a></li>
-          <li><a href="https://github.com/ConsortChat/consort-mobile">Source code</a></li>
         </ul>
       </nav>
     </div>
@@ -33,60 +30,91 @@
     <div class="wrap">
       <section class="hero" aria-labelledby="title">
         <div>
-          <h1 id="title">Consort</h1>
-          <p class="lede">Chat, voice and video for your community, without the tracking.</p>
+          <h1 id="title">Voice, video and chat, where the conversation decides who can join</h1>
+          <p class="lede">Consort is open-source team chat with calls built in. Run it on your own server, and use it in a browser or the desktop and mobile apps.</p>
           <div class="actions">
-            <a class="button button-primary" href="#download">Download</a>
-            <a class="button button-secondary" href="privacy/">Privacy policy</a>
+            <a class="button button-primary" href="download/">Download the apps</a>
+            <a class="button button-secondary" href="server/">Run your own server</a>
           </div>
         </div>
-        <img class="hero-icon" src="assets/consort-icon.svg" alt="" width="176" height="176">
+        <figure class="media">
+          <video src="assets/media/voice-channel.mp4" width="750" height="444" autoplay muted loop playsinline controls aria-describedby="hero-caption"></video>
+          <figcaption id="hero-caption">A voice channel with four people in it. A ring lights up around whoever is speaking.</figcaption>
+        </figure>
       </section>
 
-      <section aria-labelledby="features-title">
-        <h2 id="features-title" class="visually-hidden">Features</h2>
-        <ul class="features">
-          <li>
-            <h3>Conversations that stay organized</h3>
-            <p>Channels and topics keep discussions easy to follow. Consort works with Zulip servers too.</p>
+      <section class="section" aria-labelledby="features-title">
+        <h2 id="features-title">Calls that belong to the conversation</h2>
+        <p class="section-intro">In Consort, every channel and direct message can hold a call, and the call knows who belongs in it.</p>
+        <ul class="cards cards-pairs">
+          <li class="card">
+            <h3>The conversation is the room</h3>
+            <p>Only people in a channel or direct message can join its call. Your server checks, not the app, and every pass into a call is short-lived and good for that room alone.</p>
           </li>
-          <li>
-            <h3>Voice and video built in</h3>
-            <p>On Consort servers, start or join a call from a channel, a direct message, a voice channel or a lounge. Calls run on Jitsi.</p>
+          <li class="card">
+            <h3>Calls stay in the app</h3>
+            <p>A call opens inside Consort, not in a new tab. Minimize it or drag it aside and keep reading while you talk.</p>
           </li>
-          <li>
-            <h3>No more data than it needs</h3>
-            <p>No ads, no analytics, no tracking. The app talks to the server you choose, not to us.</p>
+          <li class="card">
+            <h3>See who’s talking</h3>
+            <p>The sidebar shows who is in each channel’s call and who is speaking, as it happens. In a direct message, the conversation shows who has joined.</p>
+          </li>
+          <li class="card">
+            <h3>Moderation follows your roles</h3>
+            <p>A channel’s admins can mute or remove people in its calls. Nobody else can.</p>
           </li>
         </ul>
       </section>
 
-      <section class="section" id="download" aria-labelledby="download-title">
-        <h2 id="download-title">Download</h2>
-        <p class="section-intro">Store listings aren’t live yet. Check GitHub releases for Android builds in the meantime.</p>
+      <section class="section split" aria-labelledby="channels-title">
+        <div>
+          <h2 id="channels-title">Channels for talking, not just typing</h2>
+          <p>Text channels keep discussions organized into topics. A voice channel is built around its call, and its text can be switched off entirely. A lounge holds small rooms that people drop into and out of, public or private, with guests let in at the door.</p>
+          <p>The sidebar marks each kind at a glance.</p>
+        </div>
+        <figure class="media">
+          <img src="assets/media/channel-kinds.svg" alt="The sidebar marks for each kind of channel: a folder for text, a speaker for voice, bars for a lounge, a hash for a single-topic channel and a globe for a web-public one, with lock and other badges." width="720" height="512">
+        </figure>
+      </section>
 
-        <!--
-          One line per store. A card without href shows "Coming soon".
-          To put a store live, add its href (for the planned ones below,
-          rename data-href to href). See README.md.
-        -->
-        <ul class="stores">
-          <li><a class="store" data-store="f-droid" data-href="https://f-droid.org/packages/chat.consort.fdroid/"><span class="store-name">F-Droid</span> <span class="store-detail">Android, without Google services</span> <span class="store-status">Coming soon</span></a></li>
-          <li><a class="store" data-store="google-play" data-href="https://play.google.com/store/apps/details?id=chat.consort.mobile"><span class="store-name">Google Play</span> <span class="store-detail">Android</span> <span class="store-status">Coming soon</span></a></li>
-          <li><a class="store" data-store="app-store"><span class="store-name">App Store</span> <span class="store-detail">iPhone and iPad</span> <span class="store-status">Coming soon</span></a></li>
-          <li><a class="store" data-store="microsoft-store"><span class="store-name">Microsoft Store</span> <span class="store-detail">Windows</span> <span class="store-status">Coming soon</span></a></li>
-          <li><a class="store" data-store="github-releases" href="https://github.com/ConsortChat/consort-mobile/releases"><span class="store-name">GitHub releases</span> <span class="store-detail">Android APK downloads</span> <span class="store-status">Coming soon</span></a></li>
+      <section class="section" aria-labelledby="apps-title">
+        <h2 id="apps-title">Apps for desktop and mobile</h2>
+        <p class="section-intro">Consort works in any modern browser. The apps add what a browser tab can’t.</p>
+        <ul class="cards">
+          <li class="card">
+            <h3>Desktop</h3>
+            <p>For Windows and Linux. Sign in to several organizations at once, share a window with its sound, and hold a key to talk, even while the app is in the background.</p>
+            <p><a class="card-link" href="download/#desktop">Download for desktop</a></p>
+          </li>
+          <li class="card">
+            <h3>Mobile</h3>
+            <p>Chat, notifications and calls on your phone, including a version for Android with no Google services at all. Coming soon.</p>
+            <p><a class="card-link" href="download/#mobile">Mobile downloads</a></p>
+          </li>
         </ul>
+      </section>
 
-        <p class="fine-print">The F-Droid version contains no Google or Firebase code, and delivers notifications through UnifiedPush. The Google Play version can also use Google’s push service. The <a href="privacy/">privacy policy</a> explains the difference.</p>
+      <section class="section" aria-labelledby="selfhost-title">
+        <div class="band">
+          <h2 id="selfhost-title">Run it yourself in one command</h2>
+          <p>On any machine with Docker, Consort sets up chat and calls together, generates every secret, checks that it all works, and gives you an address and a password.</p>
+<pre><code>./consort up</code></pre>
+          <p><a class="card-link" href="server/">Self-hosting guide</a></p>
+        </div>
+      </section>
+
+      <!-- Hosted service: tentative. Remove this section if the plan changes. -->
+      <section class="section" aria-labelledby="hosting-title">
+        <h2 id="hosting-title">Rather not run a server?</h2>
+        <p class="section-intro">We’re considering a hosted Consort service. It isn’t available yet.</p>
       </section>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>Consort is open source, based on the Zulip Flutter app. <a href="https://github.com/ConsortChat/consort-mobile">Source code on GitHub</a>.</p>
-      <p>This website uses no cookies, analytics or third-party resources. <a href="privacy/">Privacy policy</a>.</p>
+      <p>Consort is open source under the Apache License 2.0. Source code: <a href="https://github.com/Dyslectric/Consort">server</a>, <a href="https://github.com/Dyslectric/Consort-Desktop">desktop</a>, <a href="https://github.com/ConsortChat/consort-mobile">mobile</a>.</p>
+      <p>This website uses no cookies, analytics or third-party resources. <a href="privacy/">Privacy</a>.</p>
     </div>
   </footer>
 </body>

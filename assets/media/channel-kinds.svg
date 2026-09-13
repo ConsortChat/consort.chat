@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="512" viewBox="0 0 720 512" role="img" aria-labelledby="title desc" font-family="'Source Sans 3','Source Sans Pro','Segoe UI',system-ui,sans-serif">
+  <title id="title">Consort channel kinds</title>
+  <desc id="desc">The five glyphs the Consort sidebar draws for a channel, each in its own colour and labelled, with the three corner badges that qualify them.</desc>
+
+  <rect x="0" y="0" width="720" height="512" rx="18" fill="#1c1c1c"/>
+  <rect x="0.5" y="0.5" width="719" height="511" rx="17.5" fill="none" stroke="#2b2b2b"/>
+
+  <text x="48" y="52" font-size="19" font-weight="500" fill="#f2f2f2">Channel kinds</text>
+  <text x="48" y="72" font-size="13" fill="#8f8f8f">The main glyph says how you talk here.</text>
+
+  <g transform="translate(48,104) scale(1.75)">
+    <path d="M1.5 4.2c0-.7.6-1.2 1.2-1.2h3.1c.4 0 .8.2 1 .5l.9 1.2h5.6c.7 0 1.2.6 1.2 1.2v6.1c0 .7-.6 1.2-1.2 1.2H2.7c-.7 0-1.2-.6-1.2-1.2z" fill="#5b9cf6"/>
+  </g>
+
+  <g transform="translate(48,166) scale(1.75)" fill="none" stroke="#2dd4bf" stroke-linecap="round">
+    <path d="M8.5 2.4 4.7 5.4H2.2v5.2h2.5l3.8 3z" fill="#2dd4bf" stroke="none"/>
+    <path d="M11 5.6a3.2 3.2 0 0 1 0 4.8" stroke-width="1.2"/>
+    <path d="M12.7 3.8a5.6 5.6 0 0 1 0 8.4" stroke-width="1.2"/>
+  </g>
+
+  <g transform="translate(48,228) scale(1.75)" fill="none" stroke="#a78bfa" stroke-linecap="round" stroke-width="2">
+    <path d="M3 6.5v3"/>
+    <path d="M6.33 3.5v9"/>
+    <path d="M9.67 5v6"/>
+    <path d="M13 7v2"/>
+  </g>
+
+  <g transform="translate(48,290) scale(1.75)" fill="none" stroke="#f2a65a" stroke-linecap="round" stroke-width="2">
+    <path d="M6.3 2.5 4.9 13.5"/>
+    <path d="M11.4 2.5 10 13.5"/>
+    <path d="M3 6.2h10"/>
+    <path d="M2.6 10.2h10"/>
+  </g>
+
+  <g transform="translate(48,352) scale(1.75)" fill="none" stroke="#4ade80" stroke-linecap="round">
+    <circle cx="8" cy="8" r="6" stroke-width="1.4"/>
+    <path d="M8 2c-2.3 2-2.3 10 0 12" stroke-width="1.3"/>
+    <path d="M8 2c2.3 2 2.3 10 0 12" stroke-width="1.3"/>
+    <path d="M2.4 6h11.2" stroke-width="1.3"/>
+    <path d="M2.4 10h11.2" stroke-width="1.3"/>
+  </g>
+
+  <text x="104" y="118" font-size="17" font-weight="500" fill="#f2f2f2">Text channel</text>
+  <text x="104" y="137" font-size="13" fill="#9a9a9a">Conversations kept in named topics</text>
+
+  <text x="104" y="180" font-size="17" font-weight="500" fill="#f2f2f2">Voice channel</text>
+  <text x="104" y="199" font-size="13" fill="#9a9a9a">A call lives here; its text can be switched off</text>
+
+  <text x="104" y="242" font-size="17" font-weight="500" fill="#f2f2f2">Lounge</text>
+  <text x="104" y="261" font-size="13" fill="#9a9a9a">Ephemeral rooms to drop into, instead of topics</text>
+
+  <text x="104" y="304" font-size="17" font-weight="500" fill="#f2f2f2">Single-threaded channel</text>
+  <text x="104" y="323" font-size="13" fill="#9a9a9a">Every message in one conversation</text>
+
+  <text x="104" y="366" font-size="17" font-weight="500" fill="#f2f2f2">Web-public</text>
+  <text x="104" y="385" font-size="13" fill="#9a9a9a">Readable by the internet, so it takes the glyph</text>
+
+  <line x1="48" y1="416" x2="672" y2="416" stroke="#2e2e2e"/>
+  <text x="48" y="442" font-size="13" fill="#8f8f8f">A corner badge carries what the glyph could not.</text>
+
+  <g transform="translate(48,458) scale(1.5)">
+    <path d="M1.5 4.2c0-.7.6-1.2 1.2-1.2h3.1c.4 0 .8.2 1 .5l.9 1.2h5.6c.7 0 1.2.6 1.2 1.2v6.1c0 .7-.6 1.2-1.2 1.2H2.7c-.7 0-1.2-.6-1.2-1.2z" fill="#5b9cf6"/>
+  </g>
+  <circle cx="72" cy="482" r="9" fill="#1c1c1c"/>
+  <g transform="translate(65,475) scale(0.88)" fill="none" stroke="#5b9cf6" stroke-linecap="round">
+    <path d="M5 7.5V5.4a3 3 0 0 1 6 0v2.1" stroke-width="1.8"/>
+    <rect x="3" y="7" width="10" height="7" rx="1.4" fill="#5b9cf6" stroke="none"/>
+  </g>
+
+  <g transform="translate(272,458) scale(1.5)" fill="none" stroke="#2dd4bf" stroke-linecap="round">
+    <path d="M8.5 2.4 4.7 5.4H2.2v5.2h2.5l3.8 3z" fill="#2dd4bf" stroke="none"/>
+    <path d="M11 5.6a3.2 3.2 0 0 1 0 4.8" stroke-width="1.2"/>
+    <path d="M12.7 3.8a5.6 5.6 0 0 1 0 8.4" stroke-width="1.2"/>
+  </g>
+  <circle cx="296" cy="482" r="9" fill="#1c1c1c"/>
+  <g transform="translate(289,475) scale(0.88)" fill="none" stroke="#2dd4bf" stroke-linecap="round" stroke-width="2.4">
+    <path d="M6.3 2.5 4.9 13.5"/>
+    <path d="M11.4 2.5 10 13.5"/>
+    <path d="M3 6.2h10"/>
+    <path d="M2.6 10.2h10"/>
+  </g>
+
+  <g transform="translate(488,458) scale(1.5)" fill="none" stroke="#4ade80" stroke-linecap="round">
+    <circle cx="8" cy="8" r="6" stroke-width="1.4"/>
+    <path d="M8 2c-2.3 2-2.3 10 0 12" stroke-width="1.3"/>
+    <path d="M8 2c2.3 2 2.3 10 0 12" stroke-width="1.3"/>
+    <path d="M2.4 6h11.2" stroke-width="1.3"/>
+    <path d="M2.4 10h11.2" stroke-width="1.3"/>
+  </g>
+  <circle cx="512" cy="482" r="9" fill="#1c1c1c"/>
+  <g transform="translate(505,475) scale(0.88)" fill="none" stroke="#4ade80" stroke-linecap="round" stroke-width="2.4">
+    <path d="M3 6.5v3"/>
+    <path d="M6.33 3.5v9"/>
+    <path d="M9.67 5v6"/>
+    <path d="M13 7v2"/>
+  </g>
+
+  <text x="88" y="479" font-size="14" fill="#d8d8d8">Private</text>
+  <text x="312" y="479" font-size="14" fill="#d8d8d8">Voice, keeping text</text>
+  <text x="528" y="479" font-size="14" fill="#d8d8d8">Web-public lounge</text>
+</svg>
