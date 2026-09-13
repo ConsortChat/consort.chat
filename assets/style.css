@@ -181,6 +181,27 @@ code {
   text-decoration: underline;
 }
 
+/* Keep all four links on one row on phones. */
+@media (max-width: 30rem) {
+  .site-nav ul {
+    gap: 0.25rem 0.9rem;
+  }
+
+  .site-nav a {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 22rem) {
+  .site-nav ul {
+    gap: 0.25rem 0.7rem;
+  }
+
+  .site-nav a {
+    font-size: 0.875rem;
+  }
+}
+
 .site-footer {
   margin-top: 5rem;
   border-top: 1px solid var(--border);

@@ -14,6 +14,7 @@ new under `assets/`.
 index.html                 home: what Consort is
 server/index.html          self-hosting guide
 download/index.html        desktop and mobile downloads
+notifications/index.html   push notifications: the free options and the gateway
 privacy/index.html         privacy overview: website, servers, apps
 privacy/mobile/index.html  mobile app privacy policy (currently a draft)
 404.html                   not-found page (root-relative links)

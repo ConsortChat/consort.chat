@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Push notifications · Consort</title>
+  <meta name="description" content="How Consort delivers notifications: free UnifiedPush and Web Push from every server, and a low-cost gateway for the app-store apps.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../"><img src="../assets/consort-logo.svg" alt="Consort" width="140" height="28"></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../server/">Self-host</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="./" aria-current="page">Notifications</a></li>
+          <li><a href="../privacy/">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <article class="prose">
+        <h1>Push notifications</h1>
+        <p class="lede">Every Consort server can notify your devices itself, for free. The app-store apps need one extra step, and we’ll run it for as little as we can.</p>
+
+        <h2 id="free">Free on every Consort server</h2>
+        <p>A Consort server sends notifications straight to your devices with Web Push, the open standard browsers use. Nothing passes through us, and nobody charges for it.</p>
+        <ul>
+          <li><strong>Android, with UnifiedPush.</strong> Install a UnifiedPush distributor app, such as ntfy, and Consort delivers notifications through it. This works in both the F-Droid and Google Play versions of the app, with no Google services involved.</li>
+          <li><strong>Browsers and the installed web app.</strong> Turn on notifications when you use Consort in a browser. On iPhone and iPad, add Consort to your Home Screen first.</li>
+        </ul>
+        <p>Notifications are encrypted between your server and your device. The push service in between, whether it belongs to your distributor or your browser’s maker, sees only when a notification arrives and how big it is.</p>
+        <p>If you <a href="../server/">run a server</a>, there’s nothing to set up: the install creates the keys Web Push needs. It does need a contact address at a real domain, because Apple’s push service refuses anything else.</p>
+
+        <!-- Gateway: planned. Update its status and pricing when it launches. -->
+        <h2 id="gateway">In the Google Play and App Store apps</h2>
+        <p>Google and Apple deliver notifications to an app only on behalf of the app’s publisher. For the Google Play and App Store versions of Consort to be notified the usual way, a server has to send through the publisher: us.</p>
+        <p>That’s what the Consort notification gateway is for. Any Consort server will be able to connect to it, and it will pass notifications on to Google and Apple for the apps.</p>
+        <ul>
+          <li><strong>End-to-end encrypted.</strong> Your server encrypts each notification for your device before sending it. The gateway, Google and Apple can’t read it.</li>
+          <li><strong>Priced as low as we can make it.</strong> The gateway costs money to run. We’ll charge as little as we can to keep it running.</li>
+          <li><strong>Never required.</strong> The free options above keep working: UnifiedPush in both Android versions, and Web Push in the installed web app on iPhone and iPad.</li>
+        </ul>
+        <div class="note" role="note" aria-label="Status">
+          <p><strong>Not available yet.</strong> The gateway, and the Google Play and App Store apps, are still to come. Pricing will be announced with the gateway.</p>
+        </div>
+
+        <h2 id="compare">At a glance</h2>
+        <div class="table-scroll" role="region" aria-labelledby="compare" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">How</th>
+                <th scope="col">Where</th>
+                <th scope="col">Cost</th>
+                <th scope="col">What you need</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">UnifiedPush</th>
+                <td>Android: F-Droid and Google Play versions</td>
+                <td>Free</td>
+                <td>A distributor app, such as ntfy</td>
+              </tr>
+              <tr>
+                <th scope="row">Web Push</th>
+                <td>Browsers and the installed web app</td>
+                <td>Free</td>
+                <td>Nothing, except adding Consort to the Home Screen on iPhone and iPad</td>
+              </tr>
+              <tr>
+                <th scope="row">Consort gateway</th>
+                <td>Google Play and App Store apps</td>
+                <td>Low cost, coming soon</td>
+                <td>Your server connected to the gateway</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Whichever way a notification travels, the services along the way see when it arrives, not what it says.</p>
+
+        <h2 id="desktop">The desktop app</h2>
+        <p>The desktop app shows notifications itself while it’s running, and you can reply from them. It doesn’t use a push service at all.</p>
+
+        <p class="more"><a href="../privacy/mobile/">Read the mobile app privacy policy</a></p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Consort is open source under the Apache License 2.0. Source code: <a href="https://github.com/Dyslectric/Consort">server</a>, <a href="https://github.com/Dyslectric/Consort-Desktop">desktop</a>, <a href="https://github.com/ConsortChat/consort-mobile">mobile</a>.</p>
+      <p>This website uses no cookies, analytics or third-party resources. <a href="../privacy/">Privacy</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>
