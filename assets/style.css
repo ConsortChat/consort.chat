@@ -649,10 +649,11 @@ main {
 }
 
 /* Pulled up into the hero's bottom padding, back to where it would sit
-   inside the hero, and then held in the middle of the window under the
-   header until <main> ends. The hold is capped at 28rem from the top, a
-   little above where the stage rests, so a tall window doesn't push the
-   stage down before any scrolling. */
+   inside the hero, and then held in place until <main> ends. assets/hero.js
+   holds it where it rests from the first scroll. Without scripts it rises
+   to the middle of the window under the header and is held there, capped
+   at 28rem from the top, a little above where it rests, so a tall window
+   doesn't push it down before any scrolling. */
 .stage-wrap {
   container-type: inline-size;
   position: sticky;
@@ -1425,13 +1426,15 @@ button.pill:hover {
 }
 
 /*
-  Scrolling down fades the hero's text and slides the call and the voice
-  panel up to the top of the window, while the window rises to the middle
-  of the screen and stays there (see .stage-wrap), and the rest of the
-  page scrolls over it on frosted glass. The fade and the slides follow
-  --hero-scroll on <main>, which runs from 0 to 1 as the top 70% of the
-  text scrolls off the top of the page. Browsers with scroll-driven
-  animations set it here; others get it from assets/hero.js.
+  Scrolling down holds the hero's text still and fades it, while the
+  window, held in place (see .stage-wrap), rises into the space the text
+  leaves, and the call and the voice panel slide up to the window's top.
+  The rest of the page scrolls at its normal speed throughout, over the
+  window on frosted glass. All of it follows --hero-scroll on <main>,
+  which runs from 0 to 1 over the page's first --hero-travel of scrolling.
+  The window rises --hero-rise. assets/hero.js measures both from the space
+  above the window, and sets --hero-scroll in browsers without
+  scroll-driven animations.
 */
 @property --hero-scroll {
   syntax: "<number>";
@@ -1439,8 +1442,22 @@ button.pill:hover {
   initial-value: 0;
 }
 
+main:has(> .hero) {
+  --hero-rise: 12rem;
+  --hero-travel: 24rem;
+}
+
+/* The text moves down as far as the page scrolls, so it holds still while
+   it fades, and is hidden once it has faded (see below). */
 .hero-copy {
   opacity: calc(1 - var(--hero-scroll, 0));
+  translate: 0 calc(var(--hero-scroll, 0) * var(--hero-travel));
+}
+
+/* The window rises fastest at first and eases to a stop: p(2 - p). It
+   moves only by transform, so where it's held doesn't change. */
+.stage {
+  translate: 0 calc(var(--hero-scroll, 0) * (2 - var(--hero-scroll, 0)) * -1 * var(--hero-rise));
 }
 
 /* The call and the voice panel rise over the window, ending near its top. */
@@ -1522,26 +1539,29 @@ main:has(> .stage-wrap) {
   }
 }
 
-@supports (animation-timeline: view()) {
+/* The longhands follow the shorthand, which would reset them. */
+@supports (animation-timeline: scroll()) {
   main:has(> .hero) {
-    timeline-scope: --hero-copy;
     animation: hero-scroll linear both;
-    animation-timeline: --hero-copy;
-    animation-range: exit-crossing 0% exit-crossing 70%;
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--hero-travel);
   }
 
-  /* An inset of 0, because by default the range takes the page's
-     scroll-padding and the text would start faded. */
   .hero-copy {
-    view-timeline-name: --hero-copy;
-    view-timeline-axis: block;
-    view-timeline-inset: 0;
+    animation: hero-copy-hide linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--hero-travel);
   }
 }
 
 @keyframes hero-scroll {
   from { --hero-scroll: 0; }
   to { --hero-scroll: 1; }
+}
+
+/* Visible until the very end, so the faded buttons can't be clicked. */
+@keyframes hero-copy-hide {
+  to { visibility: hidden; }
 }
 
 .split {

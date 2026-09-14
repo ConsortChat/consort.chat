@@ -1,7 +1,8 @@
-// The home page hero, for what CSS can't do on its own: the scroll effect
-// in browsers without CSS scroll-driven animations (Firefox), a faint tilt
-// of the app mockup toward the mouse, and the call's Minimize and Restore
-// buttons.
+// The home page hero, for what CSS can't do on its own: holding the app
+// mockup where it rests from the first scroll and sizing the scroll effect
+// to fit, the scroll effect itself in browsers without CSS scroll-driven
+// animations (Firefox), a tilt of the mockup toward the mouse, and the
+// call's Minimize and Restore buttons.
 
 (function () {
   var main = document.querySelector("main");
@@ -14,17 +15,48 @@
     return Math.min(Math.max(n, min), max);
   }
 
-  // Sets --hero-scroll on <main>: 0 until the text reaches the top of the
-  // page, 1 once the top 70% of it has scrolled off, matching the
-  // exit-crossing range in style.css. Browsers with scroll-driven animations
-  // set it there.
-  if (!CSS.supports("animation-timeline: view()")) {
+  // Sets the stage's sticky top to its resting distance from the top of the
+  // page, so it's held there from the first scroll while the page's content
+  // scrolls up over it. In a window too short to show half the stage there,
+  // it's held higher. The scroll effect in style.css runs over the space
+  // between the header and the stage (--hero-travel), while the stage rises
+  // half of it (--hero-rise), so it starts rising at the page's speed and
+  // eases to a stop. All of it follows the hero's height, so it's measured
+  // again when the hero resizes. Without this, style.css holds the stage
+  // mid-window and uses default distances.
+  var stageWrap = document.querySelector(".stage-wrap");
+  var hero = document.querySelector(".hero");
+  var header = document.querySelector(".site-header");
+  var travel = 384;
+
+  function pin() {
+    var rest = hero.getBoundingClientRect().bottom + scrollY +
+      parseFloat(getComputedStyle(stageWrap).marginTop);
+    var top = Math.min(rest, Math.max(0, innerHeight - stage.offsetHeight / 2));
+    travel = Math.max(1, top - (header ? header.offsetHeight : 0));
+    stageWrap.style.top = top + "px";
+    main.style.setProperty("--hero-travel", travel + "px");
+    main.style.setProperty("--hero-rise", travel / 2 + "px");
+  }
+
+  if (stageWrap && hero) {
+    pin();
+    new ResizeObserver(pin).observe(hero);
+    addEventListener("resize", pin);
+  }
+
+  // Sets --hero-scroll on <main>, from 0 at the top of the page to 1 once
+  // it has scrolled --hero-travel, and hides the text once it has faded,
+  // matching the scroll-driven animations in style.css, which do both in
+  // browsers that have them.
+  if (!CSS.supports("animation-timeline: scroll()")) {
     var pending = false;
 
     var update = function () {
       pending = false;
-      var progress = -copy.getBoundingClientRect().top / (copy.offsetHeight * 0.7);
-      main.style.setProperty("--hero-scroll", clamp(progress, 0, 1));
+      var progress = clamp(scrollY / travel, 0, 1);
+      main.style.setProperty("--hero-scroll", progress);
+      copy.style.visibility = progress < 1 ? "" : "hidden";
     };
 
     var schedule = function () {
