@@ -1469,12 +1469,13 @@ button.pill:hover {
 }
 
 /* The glass reaches the window's edges. It starts 14rem above the section
-   and fades in, tint and blur together, over --glass-in. At the end of
+   and fades in, tint and blur together, over --glass-in, reaching full
+   strength at the section's heading, its top padding down. At the end of
    <main>, where the stage stops, its tint thickens to the page's color
    over --glass-out, so the window fades away behind the last section.
    Both fades use eased stops so they show no line. */
 .stage-wrap + .wrap::before {
-  --glass-in: 28rem;
+  --glass-in: calc(14rem + clamp(3rem, 8vw, 5rem));
   --glass-out: 16rem;
   content: "";
   position: absolute;
