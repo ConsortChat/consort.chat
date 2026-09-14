@@ -40,7 +40,8 @@ assets/media/              demo media, copied from Consort's docs/
 ```
 
 There's no templating, so the header and footer are repeated on every
-page. Change them everywhere at once.
+page. Change them everywhere at once. The footer's copyright year is
+written out by hand; update it on every page each new year.
 
 ## Preview locally
 
