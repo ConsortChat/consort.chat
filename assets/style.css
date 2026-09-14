@@ -1575,21 +1575,34 @@ main:has(> .hero) {
   initial-value: 0;
 }
 
+/* hero.js writes these from the page's main thread as the page scrolls,
+   which on a phone trails the scrolling and lands in uneven steps. A short
+   linear transition eases each new value in on the compositor, so they
+   move smoothly between updates. The call keeps its transitions for
+   Minimize and Restore. */
 @supports not (animation-timeline: scroll()) {
   .hero-copy {
     opacity: calc(1 - var(--hero-scroll, 0));
+    transition: opacity 0.15s linear;
   }
 
   .stage {
     translate: 0 calc(var(--hero-scroll, 0) * (2 - var(--hero-scroll, 0)) * -1 * var(--hero-rise));
+    transition: translate 0.15s linear;
   }
 
   .call {
     translate: 0 calc(var(--hero-scroll, 0) * -21em);
+    transition: opacity 0.35s ease, scale 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s, translate 0.15s linear;
+  }
+
+  .call-minimized .call {
+    transition: opacity 0.3s ease, scale 0.4s cubic-bezier(0.5, 0, 0.7, 0.4), visibility 0s 0.4s, translate 0.15s linear;
   }
 
   .callout {
     translate: 0 calc(var(--hero-scroll, 0) * -20em);
+    transition: translate 0.15s linear;
   }
 }
 
