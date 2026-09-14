@@ -15,14 +15,15 @@
   }
 
   // Sets --hero-scroll on <main>: 0 until the text reaches the top of the
-  // page, 1 once it has scrolled off, matching the exit-crossing range in
-  // style.css. Browsers with scroll-driven animations set it there.
+  // page, 1 once the top 70% of it has scrolled off, matching the
+  // exit-crossing range in style.css. Browsers with scroll-driven animations
+  // set it there.
   if (!CSS.supports("animation-timeline: view()")) {
     var pending = false;
 
     var update = function () {
       pending = false;
-      var progress = -copy.getBoundingClientRect().top / copy.offsetHeight;
+      var progress = -copy.getBoundingClientRect().top / (copy.offsetHeight * 0.7);
       main.style.setProperty("--hero-scroll", clamp(progress, 0, 1));
     };
 
