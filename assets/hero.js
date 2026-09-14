@@ -23,20 +23,26 @@
   // half of it (--hero-rise), so it starts rising at the page's speed and
   // eases to a stop. All of it follows the hero's height, so it's measured
   // again when the hero resizes. Without this, style.css holds the stage
-  // mid-window and uses default distances.
+  // mid-window and uses default distances. Values are whole pixels and
+  // only written when they change: a phone's address bar resizes the
+  // window over and over as it collapses, and rewriting them each time
+  // would restyle the page mid-scroll.
   var stageWrap = document.querySelector(".stage-wrap");
   var hero = document.querySelector(".hero");
   var header = document.querySelector(".site-header");
-  var travel = 384;
+  var travel = 0;
 
   function pin() {
     var rest = hero.getBoundingClientRect().bottom + scrollY +
       parseFloat(getComputedStyle(stageWrap).marginTop);
-    var top = Math.min(rest, Math.max(0, innerHeight - stage.offsetHeight / 2));
-    travel = Math.max(1, top - (header ? header.offsetHeight : 0));
-    stageWrap.style.top = top + "px";
-    main.style.setProperty("--hero-travel", travel + "px");
-    main.style.setProperty("--hero-rise", travel / 2 + "px");
+    var top = Math.floor(Math.min(rest, Math.max(0, innerHeight - stage.offsetHeight / 2)));
+    var next = Math.max(2, top - (header ? header.offsetHeight : 0));
+    if (stageWrap.style.top !== top + "px") stageWrap.style.top = top + "px";
+    if (next !== travel) {
+      travel = next;
+      main.style.setProperty("--hero-travel", travel + "px");
+      main.style.setProperty("--hero-rise", travel / 2 + "px");
+    }
   }
 
   if (stageWrap && hero) {
@@ -54,7 +60,7 @@
 
     var update = function () {
       pending = false;
-      var progress = clamp(scrollY / travel, 0, 1);
+      var progress = travel ? clamp(scrollY / travel, 0, 1) : 0;
       main.style.setProperty("--hero-scroll", progress);
       copy.style.visibility = progress < 1 ? "" : "hidden";
     };

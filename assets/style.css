@@ -1430,43 +1430,93 @@ button.pill:hover {
   window, held in place (see .stage-wrap), rises into the space the text
   leaves, and the call and the voice panel slide up to the window's top.
   The rest of the page scrolls at its normal speed throughout, over the
-  window on frosted glass. All of it follows --hero-scroll on <main>,
-  which runs from 0 to 1 over the page's first --hero-travel of scrolling.
-  The window rises --hero-rise. assets/hero.js measures both from the space
-  above the window, and sets --hero-scroll in browsers without
-  scroll-driven animations.
-*/
-@property --hero-scroll {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
+  window on frosted glass. It all runs over the page's first --hero-travel
+  of scrolling, and the window rises --hero-rise. assets/hero.js measures
+  both from the space above the window.
 
+  Browsers with scroll-driven animations animate translate and opacity
+  straight from the page's scroll, which runs on the compositor with the
+  scrolling itself, so the held text doesn't lag behind it on phones while
+  the main thread is busy, as when the address bar collapses. Others
+  follow --hero-scroll on <main>, from 0 to 1, which assets/hero.js sets.
+*/
 main:has(> .hero) {
   --hero-rise: 12rem;
   --hero-travel: 24rem;
 }
 
-/* The text moves down as far as the page scrolls, so it holds still while
-   it fades, and is hidden once it has faded (see below). */
-.hero-copy {
-  opacity: calc(1 - var(--hero-scroll, 0));
-  translate: 0 calc(var(--hero-scroll, 0) * var(--hero-travel));
+@supports (animation-timeline: scroll()) {
+  /* The text moves down as far as the page scrolls, so it holds still
+     while it fades. It stays visible until the very end, so the faded
+     buttons can't be clicked once it's gone. */
+  .hero-copy {
+    animation: hero-copy linear both;
+  }
+
+  /* The window rises fastest at first and eases to a stop, 2p - p², which
+     this curve is exactly. It moves only by transform, so where it's held
+     doesn't change. */
+  .stage {
+    animation: hero-stage cubic-bezier(0.3333, 0.6667, 0.6667, 1) both;
+  }
+
+  /* The call and the voice panel rise over the window, ending near its
+     top. */
+  .call {
+    animation: hero-call linear both;
+  }
+
+  .callout {
+    animation: hero-callout linear both;
+  }
+
+  /* After the shorthands, which would reset these. */
+  .hero-copy,
+  .stage,
+  .call,
+  .callout {
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--hero-travel);
+  }
 }
 
-/* The window rises fastest at first and eases to a stop: p(2 - p). It
-   moves only by transform, so where it's held doesn't change. */
-.stage {
-  translate: 0 calc(var(--hero-scroll, 0) * (2 - var(--hero-scroll, 0)) * -1 * var(--hero-rise));
+@keyframes hero-copy {
+  to {
+    opacity: 0;
+    translate: 0 var(--hero-travel);
+    visibility: hidden;
+  }
 }
 
-/* The call and the voice panel rise over the window, ending near its top. */
-.call {
-  translate: 0 calc(var(--hero-scroll, 0) * -21em);
+@keyframes hero-stage {
+  to { translate: 0 calc(-1 * var(--hero-rise)); }
 }
 
-.callout {
-  translate: 0 calc(var(--hero-scroll, 0) * -20em);
+@keyframes hero-call {
+  to { translate: 0 -21em; }
+}
+
+@keyframes hero-callout {
+  to { translate: 0 -20em; }
+}
+
+@supports not (animation-timeline: scroll()) {
+  .hero-copy {
+    opacity: calc(1 - var(--hero-scroll, 0));
+    translate: 0 calc(var(--hero-scroll, 0) * var(--hero-travel));
+  }
+
+  .stage {
+    translate: 0 calc(var(--hero-scroll, 0) * (2 - var(--hero-scroll, 0)) * -1 * var(--hero-rise));
+  }
+
+  .call {
+    translate: 0 calc(var(--hero-scroll, 0) * -21em);
+  }
+
+  .callout {
+    translate: 0 calc(var(--hero-scroll, 0) * -20em);
+  }
 }
 
 /* Starts over the stage's bottom by the section's top padding plus 2rem
@@ -1537,31 +1587,6 @@ main:has(> .stage-wrap) {
   .stage-wrap + .wrap::before {
     background: var(--bg);
   }
-}
-
-/* The longhands follow the shorthand, which would reset them. */
-@supports (animation-timeline: scroll()) {
-  main:has(> .hero) {
-    animation: hero-scroll linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 var(--hero-travel);
-  }
-
-  .hero-copy {
-    animation: hero-copy-hide linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 var(--hero-travel);
-  }
-}
-
-@keyframes hero-scroll {
-  from { --hero-scroll: 0; }
-  to { --hero-scroll: 1; }
-}
-
-/* Visible until the very end, so the faded buttons can't be clicked. */
-@keyframes hero-copy-hide {
-  to { visibility: hidden; }
 }
 
 .split {
