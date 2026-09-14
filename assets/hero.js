@@ -39,21 +39,63 @@
   }
 
   // Tilts the scene up to TILT degrees, pressing the side under the mouse
-  // away from the viewer.
+  // away from the viewer. The tilt eases toward the mouse every frame,
+  // closing most of the gap in about EASE seconds, and back to flat when
+  // the mouse leaves.
   var TILT = 2.5;
+  var EASE = 0.12;
+  var target = { x: 0, y: 0 };
+  var current = { x: 0, y: 0 };
+  var frame = 0;
+  var last = 0;
+
+  function render() {
+    var x = current.x;
+    var y = current.y;
+    scene.style.setProperty("--tilt-x", String(-y));
+    scene.style.setProperty("--tilt-y", String(x || 0.001));
+    scene.style.setProperty("--tilt", Math.min(Math.hypot(x, y), 1) * TILT + "deg");
+  }
+
+  function step(time) {
+    // Frame-rate independent: the same feel at 60Hz and 144Hz.
+    var dt = last ? Math.min((time - last) / 1000, 0.1) : 1 / 60;
+    last = time;
+    var k = 1 - Math.exp(-dt / EASE);
+    current.x += (target.x - current.x) * k;
+    current.y += (target.y - current.y) * k;
+
+    if (Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001) {
+      current.x = target.x;
+      current.y = target.y;
+      render();
+      frame = 0;
+      last = 0;
+      return;
+    }
+
+    render();
+    frame = requestAnimationFrame(step);
+  }
+
+  function moveTo(x, y) {
+    target.x = x;
+    target.y = y;
+    if (!frame) frame = requestAnimationFrame(step);
+  }
 
   stage.addEventListener("pointermove", function (event) {
     if (event.pointerType !== "mouse") return;
     var box = stage.getBoundingClientRect();
-    var x = clamp(((event.clientX - box.left) / box.width) * 2 - 1, -1, 1);
-    var y = clamp(((event.clientY - box.top) / box.height) * 2 - 1, -1, 1);
-    scene.style.setProperty("--tilt-x", String(-y));
-    scene.style.setProperty("--tilt-y", String(x || 0.001));
-    scene.style.setProperty("--tilt", Math.min(Math.hypot(x, y), 1) * TILT + "deg");
+    if (!box.width || !box.height) return;
+    moveTo(
+      clamp(((event.clientX - box.left) / box.width) * 2 - 1, -1, 1),
+      clamp(((event.clientY - box.top) / box.height) * 2 - 1, -1, 1)
+    );
   });
 
   stage.addEventListener("pointerleave", function () {
-    scene.style.setProperty("--tilt", "0deg");
+    moveTo(0, 0);
   });
 
   // Minimize shrinks the call into the dock under the message box, and

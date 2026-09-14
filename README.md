@@ -19,8 +19,8 @@ Two small scripts add what CSS can't do on its own:
   `prefers-color-scheme`. Without scripts, the page is light.
 - `assets/hero.js`, on the home page, runs the hero's scroll effect in
   browsers without CSS scroll-driven animations (such as Firefox), tilts
-  the app mockup toward the mouse, and makes the call's Minimize and
-  Restore buttons work.
+  the app mockup smoothly toward the mouse, and makes the call's
+  Minimize and Restore buttons work.
 
 Each page's policy allows scripts from the site itself
 (`script-src 'self'`).

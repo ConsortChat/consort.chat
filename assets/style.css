@@ -1385,14 +1385,12 @@ button.pill:hover {
   }
 }
 
-/* The scene drifts and the speaking rings take turns. This plays even
-   with reduced motion turned on. assets/hero.js also tilts the scene
-   toward the mouse, through --tilt-x, --tilt-y and --tilt. */
+/* The speaking rings take turns. This plays even with reduced motion
+   turned on. assets/hero.js tilts the scene toward the mouse, through
+   --tilt-x, --tilt-y and --tilt, easing it every frame itself. */
 
 .scene {
-  animation: drift 18s ease-in-out infinite alternate;
   rotate: var(--tilt-x, 0) var(--tilt-y, 1) 0 var(--tilt, 0deg);
-  transition: rotate 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .ring {
@@ -1403,11 +1401,6 @@ button.pill:hover {
 .ring.r2 { animation-delay: 2s; }
 .ring.r3 { animation-delay: 4s; }
 .ring.r4 { animation-delay: 6s; }
-
-@keyframes drift {
-  from { transform: rotateX(20deg) rotateY(-20deg) rotateZ(7deg); }
-  to { transform: rotateX(15deg) rotateY(-12deg) rotateZ(4deg); }
-}
 
 @keyframes speak {
   0%, 25%, 100% { box-shadow: 0 0 0 0.14em rgb(52 211 153 / 0); }
