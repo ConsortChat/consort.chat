@@ -509,16 +509,17 @@ pre code {
 /*
   The stage follows the hero in <main> rather than sitting inside it, so it
   can stay in the middle of the window while the rest of the page scrolls
-  over it. The hero's bottom padding makes room for it: the stage's top
-  margin, its height, and space below it for the stage to be pulled up
-  into. --stage-height is the stage's height (66em at a font size of 1/118
-  of its width), from the page's width.
+  over it. Space below the hero's text, --hero-hold, makes room for it: the
+  stage's top margin, its height, and space below it for the stage to be
+  pulled up into. --stage-height is the stage's height (66em at a font size
+  of 1/118 of its width), from the page's width.
 
   The hero fades out into the page at the bottom. The fade uses eased stops
   so its end shows no line.
 */
 main {
   --stage-height: calc((min(80rem, 100vw) - 2 * var(--gutter)) * 66 / 118);
+  --hero-hold: calc(clamp(1.5rem, 5vw, 3rem) + var(--stage-height) + clamp(6rem, 16vw, 10rem));
 }
 
 .hero {
@@ -527,7 +528,6 @@ main {
   /* clip, not hidden: hidden would make the hero a scroll container, and
      the scroll animations below would follow it instead of the page. */
   overflow: clip;
-  padding-bottom: calc(clamp(1.5rem, 5vw, 3rem) + var(--stage-height) + clamp(6rem, 16vw, 10rem));
   background:
     radial-gradient(50% 42% at 60% 70%, rgb(45 212 191 / 0.3), transparent 70%),
     radial-gradient(34% 34% at 10% 16%, rgb(14 116 144 / 0.5), transparent 70%),
@@ -586,6 +586,23 @@ main {
 .hero-copy {
   padding-block: clamp(3rem, 9vw, 5.5rem) 0;
   text-align: center;
+}
+
+.hero-copy::after {
+  content: "";
+  display: block;
+  height: var(--hero-hold);
+}
+
+/* While the page scrolls, the text is held where it rests under the header
+   (assets/hero.js measures --header-height) for as long as the space below
+   it lasts. Sticky, rather than moving it against the scroll: browsers
+   scroll the page on a thread of its own, and anything moved against it
+   from the page trails it, which shows as jitter in text meant to hold
+   still. */
+.hero-hold {
+  position: sticky;
+  top: calc(var(--header-height, 0px) + clamp(3rem, 9vw, 5.5rem));
 }
 
 .hero-copy h1 {
@@ -1403,54 +1420,100 @@ button.pill:hover {
   }
 }
 
-/* The speaking rings take turns. This plays even with reduced motion
-   turned on. assets/hero.js tilts the scene toward the mouse, through
-   --tilt-x, --tilt-y and --tilt, easing it every frame itself. */
+/* assets/hero.js tilts the scene toward the mouse, through --tilt-x,
+   --tilt-y and --tilt, easing it every frame itself. They don't inherit,
+   so each frame restyles the scene alone, not everything in it. */
+
+@property --tilt-x {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --tilt-y {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --tilt {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 
 .scene {
   rotate: var(--tilt-x, 0) var(--tilt-y, 1) 0 var(--tilt, 0deg);
 }
 
+/* The speaking rings take turns. This plays even with reduced motion
+   turned on. Each glow is drawn once and faded in and out, which the
+   compositor does without repainting the mockup. assets/hero.js pauses
+   them once the page's glass covers them. */
 .ring {
+  position: relative;
+}
+
+.ring img {
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+}
+
+.ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.14em #34d399, 0 0 0.7em 0.15em rgb(52 211 153 / 0.55);
+  opacity: 0;
   animation: speak 8s ease-in-out infinite;
 }
 
-.ring.r2 { animation-delay: 2s; }
-.ring.r3 { animation-delay: 4s; }
-.ring.r4 { animation-delay: 6s; }
+.ring.r2::after { animation-delay: 2s; }
+.ring.r3::after { animation-delay: 4s; }
+.ring.r4::after { animation-delay: 6s; }
+
+.rings-paused .ring::after {
+  animation-play-state: paused;
+}
 
 @keyframes speak {
-  0%, 25%, 100% { box-shadow: 0 0 0 0.14em rgb(52 211 153 / 0); }
-  5%, 20% { box-shadow: 0 0 0 0.14em #34d399, 0 0 0.7em 0.15em rgb(52 211 153 / 0.55); }
+  0%, 25%, 100% { opacity: 0; }
+  5%, 20% { opacity: 1; }
 }
 
 /*
-  Scrolling down holds the hero's text still and fades it, while the
-  window, held in place (see .stage-wrap), rises into the space the text
-  leaves, and the call and the voice panel slide up to the window's top.
-  The rest of the page scrolls at its normal speed throughout, over the
-  window on frosted glass. It all runs over the page's first --hero-travel
-  of scrolling, and the window rises --hero-rise. assets/hero.js measures
-  both from the space above the window.
+  Scrolling down fades the hero's text, held still (see .hero-hold), while
+  the window, held in place (see .stage-wrap), rises into the space the
+  text leaves, and the call and the voice panel slide up to the window's
+  top. The rest of the page scrolls at its normal speed throughout, over
+  the window on frosted glass. It all runs over the page's first
+  --hero-travel of scrolling, and the window rises --hero-rise.
+  assets/hero.js measures both from the space above the window. The text
+  fades over --hero-fade, which is the same distance unless the space it's
+  held in is shorter, as on phones.
 
   Browsers with scroll-driven animations animate translate and opacity
   straight from the page's scroll, which runs on the compositor with the
-  scrolling itself, so the held text doesn't lag behind it on phones while
-  the main thread is busy, as when the address bar collapses. Others
-  follow --hero-scroll on <main>, from 0 to 1, which assets/hero.js sets.
+  scrolling itself, so nothing lags behind it while the main thread is
+  busy, as when a phone's address bar collapses. In others, assets/hero.js
+  sets --hero-scroll, from 0 to 1, on each element that changes.
 */
 main:has(> .hero) {
   --hero-rise: 12rem;
   --hero-travel: 24rem;
+  --hero-fade: min(var(--hero-travel), var(--hero-hold));
 }
 
 @supports (animation-timeline: scroll()) {
-  /* The text moves down as far as the page scrolls, so it holds still
-     while it fades. It stays visible until the very end, so the faded
-     buttons can't be clicked once it's gone. */
+  /* The text stays visible until the very end of its fade, so the faded
+     buttons can't be clicked once it's gone. Hiding it is its own
+     animation: visibility can't run on the compositor, and in the same
+     animation it would keep the fade off it too. */
   .hero-copy {
-    animation: hero-copy linear both;
+    animation: hero-copy linear both, hero-copy-hide linear both;
   }
 
   /* The window rises fastest at first and eases to a stop, 2p - p², which
@@ -1478,14 +1541,18 @@ main:has(> .hero) {
     animation-timeline: scroll(root);
     animation-range: 0 var(--hero-travel);
   }
+
+  .hero-copy {
+    animation-range: 0 var(--hero-fade);
+  }
 }
 
 @keyframes hero-copy {
-  to {
-    opacity: 0;
-    translate: 0 var(--hero-travel);
-    visibility: hidden;
-  }
+  to { opacity: 0; }
+}
+
+@keyframes hero-copy-hide {
+  to { visibility: hidden; }
 }
 
 @keyframes hero-stage {
@@ -1500,10 +1567,17 @@ main:has(> .hero) {
   to { translate: 0 -20em; }
 }
 
+/* It doesn't inherit, so each update restyles only the elements that
+   change, not the whole page. */
+@property --hero-scroll {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 @supports not (animation-timeline: scroll()) {
   .hero-copy {
     opacity: calc(1 - var(--hero-scroll, 0));
-    translate: 0 calc(var(--hero-scroll, 0) * var(--hero-travel));
   }
 
   .stage {

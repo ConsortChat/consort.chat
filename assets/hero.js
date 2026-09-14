@@ -1,8 +1,9 @@
 // The home page hero, for what CSS can't do on its own: holding the app
 // mockup where it rests from the first scroll and sizing the scroll effect
 // to fit, the scroll effect itself in browsers without CSS scroll-driven
-// animations (Firefox), a tilt of the mockup toward the mouse, and the
-// call's Minimize and Restore buttons.
+// animations (Firefox), a tilt of the mockup toward the mouse, pausing the
+// speaking rings under the page's glass, and the call's Minimize and
+// Restore buttons.
 
 (function () {
   var main = document.querySelector("main");
@@ -26,23 +27,37 @@
   // mid-window and uses default distances. Values are whole pixels and
   // only written when they change: a phone's address bar resizes the
   // window over and over as it collapses, and rewriting them each time
-  // would restyle the page mid-scroll.
+  // would restyle the page mid-scroll. It also sets --header-height, under
+  // which the hero's text is held (see .hero-hold).
   var stageWrap = document.querySelector(".stage-wrap");
   var hero = document.querySelector(".hero");
   var header = document.querySelector(".site-header");
   var travel = 0;
+  var fade = 0;
+  var headerHeight = -1;
 
   function pin() {
     var rest = hero.getBoundingClientRect().bottom + scrollY +
       parseFloat(getComputedStyle(stageWrap).marginTop);
     var top = Math.floor(Math.min(rest, Math.max(0, innerHeight - stage.offsetHeight / 2)));
-    var next = Math.max(2, top - (header ? header.offsetHeight : 0));
+    // Exact, not rounded: the text rests at a fraction of a pixel, and
+    // holding it a fraction lower would shift it.
+    var height = header ? header.getBoundingClientRect().height : 0;
+    var next = Math.max(2, top - Math.round(height));
     if (stageWrap.style.top !== top + "px") stageWrap.style.top = top + "px";
+    if (height !== headerHeight) {
+      headerHeight = height;
+      main.style.setProperty("--header-height", height + "px");
+    }
     if (next !== travel) {
       travel = next;
       main.style.setProperty("--hero-travel", travel + "px");
       main.style.setProperty("--hero-rise", travel / 2 + "px");
     }
+    // The text fades over the same distance, or the space it's held in
+    // where that's shorter, as --hero-fade does in style.css.
+    var hold = parseFloat(getComputedStyle(copy, "::after").height) || travel;
+    fade = Math.max(1, Math.min(travel, Math.floor(hold)));
   }
 
   if (stageWrap && hero) {
@@ -51,18 +66,33 @@
     addEventListener("resize", pin);
   }
 
-  // Sets --hero-scroll on <main>, from 0 at the top of the page to 1 once
-  // it has scrolled --hero-travel, and hides the text once it has faded,
-  // matching the scroll-driven animations in style.css, which do both in
-  // browsers that have them.
+  // Sets --hero-scroll on the stage, the call and the voice panel, from 0
+  // at the top of the page to 1 once it has scrolled --hero-travel, and on
+  // the text, to 1 once it has scrolled its fade, and hides the text once
+  // it has faded, matching the scroll-driven animations in style.css,
+  // which do all of it in browsers that have them. Each is written only
+  // when it changes, and restyles only its own element.
   if (!CSS.supports("animation-timeline: scroll()")) {
     var pending = false;
+    var moving = [stage, scene.querySelector(".call"), scene.querySelector(".callout")];
+    var risen = -1;
+    var faded = -1;
 
     var update = function () {
       pending = false;
       var progress = travel ? clamp(scrollY / travel, 0, 1) : 0;
-      main.style.setProperty("--hero-scroll", progress);
-      copy.style.visibility = progress < 1 ? "" : "hidden";
+      var fading = fade ? clamp(scrollY / fade, 0, 1) : 0;
+      if (progress !== risen) {
+        risen = progress;
+        moving.forEach(function (el) {
+          if (el) el.style.setProperty("--hero-scroll", progress);
+        });
+      }
+      if (fading !== faded) {
+        faded = fading;
+        copy.style.setProperty("--hero-scroll", fading);
+        copy.style.visibility = fading < 1 ? "" : "hidden";
+      }
     };
 
     var schedule = function () {
@@ -178,6 +208,34 @@
   addEventListener("scroll", function () {
     if (pointer) follow();
   }, { passive: true });
+
+  // Pauses the speaking rings once the glass is at full strength over all
+  // of them, at the first heading. They barely show through it, and while
+  // anything under the glass changes, the browser blurs the window again
+  // every frame.
+  var rings = scene.querySelectorAll(".ring");
+  var heading = content && content.querySelector("h2");
+  var checking = false;
+
+  function cover() {
+    checking = false;
+    var top = Infinity;
+    rings.forEach(function (ring) {
+      top = Math.min(top, ring.getBoundingClientRect().top);
+    });
+    scene.classList.toggle("rings-paused", heading.getBoundingClientRect().top <= top);
+  }
+
+  if (heading && rings.length) {
+    addEventListener("scroll", function () {
+      if (!checking) {
+        checking = true;
+        requestAnimationFrame(cover);
+      }
+    }, { passive: true });
+    addEventListener("resize", cover);
+    cover();
+  }
 
   // Minimize shrinks the call into the dock under the message box, and
   // Restore brings it back.
