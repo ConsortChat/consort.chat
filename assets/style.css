@@ -698,7 +698,10 @@ main {
   height: 56em;
   margin-left: -48em;
   transform-style: preserve-3d;
-  transform: rotateX(20deg) rotateY(-20deg) rotateZ(7deg);
+  /* Keep the pointer tilt in the transform chain itself. Using rotate3d()
+     here is more broadly reliable than the separate CSS rotate property. */
+  transform: rotateX(20deg) rotateY(-20deg) rotateZ(7deg)
+    rotate3d(var(--tilt-x, 0), var(--tilt-y, 1), 0, var(--tilt, 0deg));
 }
 
 .scene-glow {
@@ -1445,9 +1448,10 @@ button.pill:hover {
   }
 }
 
-/* assets/hero.js tilts the scene toward the mouse, through --tilt-x,
-   --tilt-y and --tilt, easing it every frame itself. They don't inherit,
-   so each frame restyles the scene alone, not everything in it. */
+/* assets/hero.js tilts the scene toward the mouse through the rotate3d()
+   at the end of .scene's transform chain. --tilt-x, --tilt-y and --tilt
+   don't inherit, so each frame restyles the scene alone, not everything
+   inside it. */
 
 @property --tilt-x {
   syntax: "<number>";
@@ -1467,9 +1471,6 @@ button.pill:hover {
   initial-value: 0deg;
 }
 
-.scene {
-  rotate: var(--tilt-x, 0) var(--tilt-y, 1) 0 var(--tilt, 0deg);
-}
 
 /* The speaking rings take turns. This plays even with reduced motion
    turned on. Each glow is drawn once and faded in and out, which the
@@ -1514,11 +1515,10 @@ button.pill:hover {
   the window, held in place (see .stage-wrap), rises into the space the
   text leaves, and the call and the voice panel slide up to the window's
   top. The rest of the page scrolls at its normal speed throughout, over
-  the window on frosted glass. It all runs over the page's first
-  --hero-travel of scrolling, and the window rises --hero-rise.
-  assets/hero.js measures both from the space above the window. The text
-  fades over --hero-fade, which is the same distance unless the space it's
-  held in is shorter, as on phones.
+  the window on frosted glass. The text and showcase settle quickly, then
+  the showcase stays clear for a short playground interval before the page
+  copy and glass arrive. assets/hero.js sizes those ranges from the space
+  above the window, while the window rises --hero-rise.
 
   Browsers with scroll-driven animations animate translate and opacity
   straight from the page's scroll, which runs on the compositor with the
@@ -1528,10 +1528,13 @@ button.pill:hover {
 */
 main:has(> .hero) {
   --hero-rise: 12rem;
-  --hero-travel: 24rem;
-  --hero-fade: min(var(--hero-travel), var(--hero-hold));
-  --content-fade: 8rem;
+  --showcase-travel: 10rem;
+  --panel-travel: 18rem;
+  --hero-fade: 8rem;
+  --content-start: 8.5rem;
+  --content-end: 16.5rem;
   --content-overlap: clamp(18rem, 45vw, 32rem);
+  --content-shift: 0px;
 }
 
 @supports (animation-timeline: scroll()) {
@@ -1566,19 +1569,42 @@ main:has(> .hero) {
   .call,
   .callout {
     animation-timeline: scroll(root);
-    animation-range: 0 var(--hero-travel);
+  }
+
+  .stage {
+    animation-range: 0 var(--showcase-travel);
+  }
+
+  /* Let the floating panels cover the same distance over more scrolling,
+     so their translation feels slower than the window rise. */
+  .call,
+  .callout {
+    animation-range: 0 var(--panel-travel);
   }
 
   .hero-copy {
     animation-range: 0 var(--hero-fade);
   }
 
-  /* Bring the page copy and its glass in together near the start of the
-     scroll, after they begin fully clear over the mockup. */
-  .stage-wrap + .wrap {
+  /* Begin the page copy and glass just before the showcase finishes
+     settling, giving the two phases a short, deliberate overlap. */
+  .stage-wrap + .wrap::before,
+  .stage-wrap + .wrap > * {
     animation: content-in linear both;
     animation-timeline: scroll(root);
-    animation-range: 0 var(--content-fade);
+    animation-range: var(--content-start) var(--content-end);
+  }
+
+  /* The body can be seen during the crossfade without intercepting the
+     showcase. Its controls become interactive only once the fade ends. */
+  .stage-wrap + .wrap > * {
+    animation-name: content-in, content-interactive;
+    animation-timing-function: linear, step-end;
+    animation-fill-mode: both, both;
+    animation-timeline: scroll(root), scroll(root);
+    animation-range:
+      var(--content-start) var(--content-end),
+      var(--content-start) var(--content-end);
   }
 }
 
@@ -1607,9 +1633,20 @@ main:has(> .hero) {
   to { opacity: 1; }
 }
 
+@keyframes content-interactive {
+  from { pointer-events: none; }
+  to { pointer-events: auto; }
+}
+
 /* It doesn't inherit, so each update restyles only the elements that
    change, not the whole page. */
 @property --hero-scroll {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --panel-scroll {
   syntax: "<number>";
   inherits: false;
   initial-value: 0;
@@ -1632,7 +1669,7 @@ main:has(> .hero) {
   }
 
   .call {
-    translate: 0 calc(var(--hero-scroll, 0) * -21em);
+    translate: 0 calc(var(--panel-scroll, 0) * -21em);
     transition: opacity 0.35s ease, scale 0.45s cubic-bezier(0.3, 0.7, 0.2, 1), visibility 0s, translate 0.15s linear;
   }
 
@@ -1641,15 +1678,20 @@ main:has(> .hero) {
   }
 
   .callout {
-    translate: 0 calc(var(--hero-scroll, 0) * -20em);
+    translate: 0 calc(var(--panel-scroll, 0) * -20em);
     transition: translate 0.15s linear;
   }
 
-  .stage-wrap + .wrap {
+  .stage-wrap + .wrap::before,
+  .stage-wrap + .wrap > * {
     /* Keep the content visible without JavaScript; hero.js supplies the
        progress value immediately when it is available. */
     opacity: var(--content-progress, 1);
     transition: opacity 0.1s linear;
+  }
+
+  .stage-wrap + .wrap > * {
+    pointer-events: var(--content-events, auto);
   }
 }
 
@@ -1660,13 +1702,13 @@ main:has(> .hero) {
 .stage-wrap + .wrap {
   position: relative;
   z-index: 1;
-  margin-top: calc(clamp(6rem, 16vw, 10rem) - clamp(3rem, 8vw, 5rem) - var(--content-overlap));
+  margin-top: calc(clamp(6rem, 16vw, 10rem) - clamp(3rem, 8vw, 5rem) - var(--content-overlap) - var(--content-shift));
   pointer-events: none;
 }
 
-.stage-wrap + .wrap > :not(:first-child),
-.stage-wrap + .wrap > :first-child > :not(h2, .section-intro) {
-  pointer-events: auto;
+.stage-wrap + .wrap > :first-child > h2,
+.stage-wrap + .wrap > :first-child > .section-intro {
+  pointer-events: none;
 }
 
 /* The glass reaches the window's edges. It starts 14rem above the section
@@ -1709,6 +1751,9 @@ main:has(> .hero) {
   );
   -webkit-backdrop-filter: blur(20px) saturate(1.3);
   backdrop-filter: blur(20px) saturate(1.3);
+  /* Keep Firefox's filtered layer ready while its opacity is zero, so the
+     blur fades in instead of appearing a frame after the tint. */
+  will-change: opacity;
 }
 
 /* Clips the glass's overshoot by the scrollbar's width, and the window's
