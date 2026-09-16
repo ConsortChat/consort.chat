@@ -133,8 +133,9 @@ Before publishing:
 
 1. Finish the app changes the policy depends on (listed in the app's
    `docs/privacy.md`).
-2. Replace the placeholders `[DATE]`, `[PUBLISHER NAME]` and
-   `[CONTACT EMAIL]`, and remove their `class="placeholder"` spans.
+2. Replace the `[DATE]` placeholder with the effective date, and remove
+   its `class="placeholder"` span. The publisher name and contact email
+   are already filled in.
 3. Remove the draft notice and the `noindex` meta tag (both are marked
    with a `DRAFT` comment), and "(draft)" from the page title and from
    the list in `privacy/index.html`.
