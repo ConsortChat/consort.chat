@@ -2,8 +2,8 @@
 // mockup where it rests from the first scroll and sizing the scroll effect
 // to fit, the scroll effect itself in browsers without CSS scroll-driven
 // animations (Firefox), a tilt of the mockup toward the mouse, pausing the
-// speaking rings under the page's glass, and the call's Minimize and
-// Restore buttons.
+// speaking rings under the page's glass, and the call's dragging,
+// Minimize, and Restore interactions.
 
 (function () {
   var main = document.querySelector("main");
@@ -195,7 +195,7 @@
   }
 
   stage.addEventListener("pointermove", function (event) {
-    if (event.pointerType !== "mouse") return;
+    if (event.pointerType !== "mouse" || scene.classList.contains("call-dragging")) return;
     pointer = { x: event.clientX, y: event.clientY };
     follow();
   });
@@ -235,6 +235,150 @@
     }, { passive: true });
     addEventListener("resize", cover);
     cover();
+  }
+
+  // Drag the floating call by its header. The whole mockup is scaled,
+  // tilted, and drawn in perspective, so screen pixels do not line up with
+  // the call's own x and y axes. Measure those projected axes once at the
+  // start of each drag, then invert them so the header follows the pointer
+  // in screen space. Store the result in em so a dragged call stays in the
+  // same relative place if the responsive mockup changes size.
+  var call = scene.querySelector(".call");
+  var callHead = call && call.querySelector(".call-head");
+  var callAnchor = call && document.createElement("span");
+  var drag = { x: 0, y: 0 };
+  if (callAnchor) {
+    callAnchor.className = "call-drag-anchor";
+    call.appendChild(callAnchor);
+  }
+
+  function anchorPoint() {
+    var box = callAnchor.getBoundingClientRect();
+    return { x: box.left, y: box.top };
+  }
+
+  function setCallPosition(x, y) {
+    drag.x = x;
+    drag.y = y;
+    call.style.setProperty("--call-drag-x", x + "em");
+    call.style.setProperty("--call-drag-y", y + "em");
+  }
+
+  // Return the homography from a square on the call's local plane to its
+  // projected quadrilateral on screen. Unlike a pair of axis vectors, this
+  // remains exact when perspective makes the call grow or shrink as it
+  // crosses the scene.
+  function projectedCallPlane() {
+    var PROBE = 10;
+    var originX = drag.x;
+    var originY = drag.y;
+    var p0 = anchorPoint();
+
+    setCallPosition(originX + PROBE, originY);
+    var p1 = anchorPoint();
+    setCallPosition(originX + PROBE, originY + PROBE);
+    var p2 = anchorPoint();
+    setCallPosition(originX, originY + PROBE);
+    var p3 = anchorPoint();
+    setCallPosition(originX, originY);
+
+    var dx1 = p1.x - p2.x;
+    var dx2 = p3.x - p2.x;
+    var dy1 = p1.y - p2.y;
+    var dy2 = p3.y - p2.y;
+    var sx = p0.x - p1.x + p2.x - p3.x;
+    var sy = p0.y - p1.y + p2.y - p3.y;
+    var denominator = dx1 * dy2 - dx2 * dy1;
+    var g = denominator ? (sx * dy2 - dx2 * sy) / denominator : 0;
+    var h = denominator ? (dx1 * sy - sx * dy1) / denominator : 0;
+
+    return {
+      probe: PROBE,
+      matrix: [
+        p1.x - p0.x + g * p1.x, p3.x - p0.x + h * p3.x, p0.x,
+        p1.y - p0.y + g * p1.y, p3.y - p0.y + h * p3.y, p0.y,
+        g, h, 1
+      ],
+      origin: p0
+    };
+  }
+
+  function invertMatrix(m) {
+    var determinant =
+      m[0] * (m[4] * m[8] - m[5] * m[7]) -
+      m[1] * (m[3] * m[8] - m[5] * m[6]) +
+      m[2] * (m[3] * m[7] - m[4] * m[6]);
+    if (Math.abs(determinant) < 0.001) return null;
+
+    return [
+      (m[4] * m[8] - m[5] * m[7]) / determinant,
+      (m[2] * m[7] - m[1] * m[8]) / determinant,
+      (m[1] * m[5] - m[2] * m[4]) / determinant,
+      (m[5] * m[6] - m[3] * m[8]) / determinant,
+      (m[0] * m[8] - m[2] * m[6]) / determinant,
+      (m[2] * m[3] - m[0] * m[5]) / determinant,
+      (m[3] * m[7] - m[4] * m[6]) / determinant,
+      (m[1] * m[6] - m[0] * m[7]) / determinant,
+      (m[0] * m[4] - m[1] * m[3]) / determinant
+    ];
+  }
+
+  function unproject(point, inverse, probe) {
+    var w = inverse[6] * point.x + inverse[7] * point.y + inverse[8];
+    if (Math.abs(w) < 0.001) return null;
+    var local = {
+      x: (inverse[0] * point.x + inverse[1] * point.y + inverse[2]) / w * probe,
+      y: (inverse[3] * point.x + inverse[4] * point.y + inverse[5]) / w * probe
+    };
+    return Number.isFinite(local.x) && Number.isFinite(local.y) ? local : null;
+  }
+
+  if (callHead) {
+    callHead.addEventListener("pointerdown", function (event) {
+      if (event.button !== 0 || event.target.closest(".pill")) return;
+
+      var start = { pointerX: event.clientX, pointerY: event.clientY, x: drag.x, y: drag.y };
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      last = 0;
+      target.x = current.x;
+      target.y = current.y;
+      velocity.x = 0;
+      velocity.y = 0;
+      var plane = projectedCallPlane();
+      var inverse = invertMatrix(plane.matrix);
+      if (!inverse) return;
+
+      callHead.setPointerCapture(event.pointerId);
+      scene.classList.add("call-dragging");
+
+      function move(moveEvent) {
+        pointer = { x: moveEvent.clientX, y: moveEvent.clientY };
+        var screenX = moveEvent.clientX - start.pointerX;
+        var screenY = moveEvent.clientY - start.pointerY;
+        var local = unproject({
+          x: plane.origin.x + screenX,
+          y: plane.origin.y + screenY
+        }, inverse, plane.probe);
+        if (!local) return;
+        setCallPosition(start.x + local.x, start.y + local.y);
+      }
+
+      function stop() {
+        scene.classList.remove("call-dragging");
+        if (pointer) follow();
+        callHead.removeEventListener("pointermove", move);
+        callHead.removeEventListener("pointerup", stop);
+        callHead.removeEventListener("pointercancel", stop);
+        callHead.removeEventListener("lostpointercapture", stop);
+      }
+
+      callHead.addEventListener("pointermove", move);
+      callHead.addEventListener("pointerup", stop);
+      callHead.addEventListener("pointercancel", stop);
+      callHead.addEventListener("lostpointercapture", stop);
+      event.preventDefault();
+    });
   }
 
   // Minimize shrinks the call into the dock under the message box, and

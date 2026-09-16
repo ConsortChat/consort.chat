@@ -1006,6 +1006,8 @@ main {
 /* The call, floating in front of the window */
 
 .call {
+  --call-drag-x: 0em;
+  --call-drag-y: 0em;
   position: absolute;
   right: -3.5em;
   bottom: -4em;
@@ -1020,7 +1022,7 @@ main {
   font-size: 1.1em;
   line-height: 1.3;
   text-align: left;
-  transform: translateZ(9em);
+  transform: translate3d(var(--call-drag-x), var(--call-drag-y), 9em);
   box-shadow:
     0 0 0 0.1em rgb(255 255 255 / 0.13),
     0 2.5em 5em rgb(0 0 0 / 0.65),
@@ -1034,6 +1036,29 @@ main {
   padding: 0 0.8em;
   background: #26262c;
   font-size: 0.95em;
+  cursor: grab;
+  touch-action: none;
+}
+
+.call-head:active {
+  cursor: grabbing;
+}
+
+.call-head .pill {
+  cursor: default;
+}
+
+.call-head button.pill {
+  cursor: pointer;
+}
+
+.call-drag-anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .pill {
