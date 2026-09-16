@@ -1530,6 +1530,8 @@ main:has(> .hero) {
   --hero-rise: 12rem;
   --hero-travel: 24rem;
   --hero-fade: min(var(--hero-travel), var(--hero-hold));
+  --content-fade: 8rem;
+  --content-overlap: clamp(18rem, 45vw, 32rem);
 }
 
 @supports (animation-timeline: scroll()) {
@@ -1570,6 +1572,14 @@ main:has(> .hero) {
   .hero-copy {
     animation-range: 0 var(--hero-fade);
   }
+
+  /* Bring the page copy and its glass in together near the start of the
+     scroll, after they begin fully clear over the mockup. */
+  .stage-wrap + .wrap {
+    animation: content-in linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 var(--content-fade);
+  }
 }
 
 @keyframes hero-copy {
@@ -1590,6 +1600,11 @@ main:has(> .hero) {
 
 @keyframes hero-callout {
   to { translate: 0 -20em; }
+}
+
+@keyframes content-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* It doesn't inherit, so each update restyles only the elements that
@@ -1629,16 +1644,23 @@ main:has(> .hero) {
     translate: 0 calc(var(--hero-scroll, 0) * -20em);
     transition: translate 0.15s linear;
   }
+
+  .stage-wrap + .wrap {
+    /* Keep the content visible without JavaScript; hero.js supplies the
+       progress value immediately when it is available. */
+    opacity: var(--content-progress, 1);
+    transition: opacity 0.1s linear;
+  }
 }
 
-/* Starts over the stage's bottom by the section's top padding plus 2rem
-   less the hero's padding below the stage, and is drawn above the stage,
-   so the heading ends 2rem over the window's bottom. The heading and
-   intro let clicks through to the window underneath. */
+/* Pulls the page well into the stage so its first heading is near the
+   viewport during the short entrance fade instead of appearing after the
+   fade is already over. The heading and intro let clicks through to the
+   window underneath. */
 .stage-wrap + .wrap {
   position: relative;
   z-index: 1;
-  margin-top: calc(clamp(6rem, 16vw, 10rem) - clamp(3rem, 8vw, 5rem) - 2rem);
+  margin-top: calc(clamp(6rem, 16vw, 10rem) - clamp(3rem, 8vw, 5rem) - var(--content-overlap));
   pointer-events: none;
 }
 

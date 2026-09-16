@@ -32,8 +32,10 @@
   var stageWrap = document.querySelector(".stage-wrap");
   var hero = document.querySelector(".hero");
   var header = document.querySelector(".site-header");
+  var content = document.querySelector(".stage-wrap + .wrap");
   var travel = 0;
   var fade = 0;
+  var contentFade = 1;
   var headerHeight = -1;
 
   function pin() {
@@ -58,6 +60,13 @@
     // where that's shorter, as --hero-fade does in style.css.
     var hold = parseFloat(getComputedStyle(copy, "::after").height) || travel;
     fade = Math.max(1, Math.min(travel, Math.floor(hold)));
+    // The page copy and glass arrive much sooner: at 35% of the hero's
+    // travel, capped at 8rem so the reveal stays quick on tall screens.
+    contentFade = Math.max(1, Math.min(
+      parseFloat(getComputedStyle(document.documentElement).fontSize) * 8,
+      travel * 0.35
+    ));
+    main.style.setProperty("--content-fade", contentFade + "px");
   }
 
   if (stageWrap && hero) {
@@ -77,11 +86,13 @@
     var moving = [stage, scene.querySelector(".call"), scene.querySelector(".callout")];
     var risen = -1;
     var faded = -1;
+    var entered = -1;
 
     var update = function () {
       pending = false;
       var progress = travel ? clamp(scrollY / travel, 0, 1) : 0;
       var fading = fade ? clamp(scrollY / fade, 0, 1) : 0;
+      var entering = clamp(scrollY / contentFade, 0, 1);
       if (progress !== risen) {
         risen = progress;
         moving.forEach(function (el) {
@@ -92,6 +103,10 @@
         faded = fading;
         copy.style.setProperty("--hero-scroll", fading);
         copy.style.visibility = fading < 1 ? "" : "hidden";
+      }
+      if (content && entering !== entered) {
+        entered = entering;
+        content.style.setProperty("--content-progress", entering);
       }
     };
 
@@ -177,7 +192,6 @@
   // flat, even where the content lets the mouse through to the stage or
   // the stage reaches past the content's sides. Scrolling moves the
   // content under a still mouse, so it checks again then.
-  var content = document.querySelector(".stage-wrap + .wrap");
   var pointer = null;
 
   function follow() {
